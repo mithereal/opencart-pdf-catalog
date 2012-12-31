@@ -115,7 +115,8 @@
 			
 			//echo $html_template_css;
 			// define some HTML content with style
-			if($this->config->get('pdf_catalog_description') && $this->config->get('pdf_catalog_description') != '')
+		 
+			if($this->config->get('pdf_catalog_description') && strlen(trim($this->config->get('pdf_catalog_description'))) >1)
 			{
 				$html_description  = '<div>'.html_entity_decode($this->config->get('pdf_catalog_description')).'</div><div class="page_break"></div>';
 				//$pdf->writeHTML($html_description, true, false, true, false, '');
