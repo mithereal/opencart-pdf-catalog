@@ -66,13 +66,16 @@
 			$this->load->helper('tcpdf/config/lang/eng');
 			$this->load->helper('tcpdf/tcpdf');
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-			
+			$author=$this->config->get('pdf_catalog_author');
+			$title=$this->config->get('pdf_catalog_title');
+			$subject=$this->config->get('pdf_catalog_subject');
+			$keywords=$this->config->get('pdf_catalog_description');
 			// set document information
 			$pdf->SetCreator(PDF_CREATOR);
-			$pdf->SetAuthor('Con Cor Intl.');
-			$pdf->SetTitle('Product Catalog');
-			$pdf->SetSubject('Catalog of con-cor.com products');
-			$pdf->SetKeywords('railroad, model trains, ho scale,n scale,concor');
+			$pdf->SetAuthor($author);
+			$pdf->SetTitle($title);
+			$pdf->SetSubject($subject);
+			$pdf->SetKeywords($keywords);
 			
 			// set default header data
 			$pdf_logo = "../../../image/".$this->config->get('config_logo');

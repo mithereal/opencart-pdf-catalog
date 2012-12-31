@@ -101,7 +101,7 @@
         </tr>
 
 	      <tr>
-          <td><?php echo $entry_pdf_author; ?> <input type="text" name="author"></text><?php echo $pdf_catalog_author;?></td>
+          <td><?php echo $entry_pdf_author; ?> <input type="text" name="pdf_catalog_author"></text><?php echo $pdf_catalog_author;?></td>
 	  </tr>
 	      <tr>
           <td></text><?php echo $entry_pdf_title; ?> <input type="text" name="pdf_catalog_title"><?php echo $pdf_catalog_title;?></td>
