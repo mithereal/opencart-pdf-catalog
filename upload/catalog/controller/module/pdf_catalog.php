@@ -13,8 +13,12 @@ class ControllerModulePdfcatalog extends Controller {
 		 
 		//$this->data['pdf_catalog_href'] = $this->model_tool_seo_url->rewrite(HTTP_SERVER . 'index.php?route=product/pdf_catalog&category_id=');
 		$this->data['pdf_catalog_href'] = HTTP_SERVER . 'index.php?route=product/pdf_catalog&category_id=';
-		$categories = $this->model_catalog_pdf_catalog->getCategories(0);
 		
+		if($this->config->get('pdf_catalog_display_categories') == 1){
+			$categories = $this->model_catalog_pdf_catalog->getCategories(0);
+		}else{
+		$categories = null;
+		}
 		$this->data['categories']= $categories;
 		
 		$this->id = 'pdf_catalog';
