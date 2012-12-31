@@ -85,6 +85,8 @@
           </tfoot>
           </table>
           <table id="module" class="form ">
+
+	  
 		<tr>
           <td><?php echo $entry_display_categories; ?></td>
           <td><select name="pdf_catalog_display_categories">
@@ -97,6 +99,19 @@
               <?php } ?>
             </select></td>
         </tr>
+
+	      <tr>
+          <td><?php echo $entry_pdf_author; ?> <input type="text" name="author"></text></td>
+	  </tr>
+	      <tr>
+          <td></text><?php echo $entry_pdf_title; ?> <input type="text" name="title"></td>
+	  </tr>
+	      <tr>
+          <td><?php echo $entry_pdf_subject; ?> <input type="text" name="subject"></text></td>
+	  </tr>
+	      <tr>
+          <td><?php echo $entry_pdf_keywords; ?> <input type="text" name="keywords"></text></td>
+	  </tr>
 		<tr>
           <td><?php echo $entry_description; ?></td>
           <td>

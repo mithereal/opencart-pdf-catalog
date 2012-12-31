@@ -20,6 +20,11 @@ $_['entry_status']     = 'Status:';
 $_['entry_sort_order'] = 'Sort Order:';
 $_['entry_description'] = 'Introduction in PDF:';
 $_['entry_display_categories'] = 'Display categories:';
+$_['entry_pdf_creator'] = 'Creator:';
+$_['entry_pdf_author'] = 'Author:';
+$_['entry_pdf_title'] = 'Title:';
+$_['entry_pdf_subject'] = 'Subject:';
+$_['entry_pdf_keywords'] = 'Keywords:';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify module PDF catalog!';

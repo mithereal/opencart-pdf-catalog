@@ -30,7 +30,14 @@ class ControllerModulePdfcatalog extends Controller {
 		$this->data['text_yes'] = $this->language->get('text_yes');
 		$this->data['text_no'] = $this->language->get('text_no');
 		
-		$this->data['entry_display_categories'] = $this->language->get('entry_display_categories');
+		$this->data['entry_display_categories'] = $this->language->get('entry_display_categories');		
+		$this->data['entry_pdf_creator'] = $this->language->get('entry_pdf_creator');		
+		$this->data['entry_pdf_author'] = $this->language->get('entry_pdf_author');		
+		$this->data['entry_pdf_title'] = $this->language->get('entry_pdf_title');		
+		$this->data['entry_pdf_subject'] = $this->language->get('entry_pdf_subject');		
+		$this->data['entry_pdf_keywords'] = $this->language->get('entry_pdf_keywords');
+		
+		
 		$this->data['entry_layout'] = $this->language->get('entry_layout');
 		$this->data['entry_position'] = $this->language->get('entry_position');
 		$this->data['entry_status'] = $this->language->get('entry_status');
