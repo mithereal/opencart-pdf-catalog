@@ -144,7 +144,7 @@
 					}
 				}
 				
-				if($no_of_category > 0)
+				if($no_of_category > 1)
 				{
 					$catalog_toc .= '<div class="page_break"></div>';
 					$html .= $catalog_toc;
