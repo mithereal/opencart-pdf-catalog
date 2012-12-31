@@ -113,7 +113,29 @@ class ControllerModulePdfcatalog extends Controller {
 			$this->data['pdf_catalog_display_categories'] = $this->request->post['pdf_catalog_display_categories'];
 		} else {
 			$this->data['pdf_catalog_display_categories'] = $this->config->get('pdf_catalog_display_categories');
+		}			
+			
+		if (isset($this->request->post['pdf_catalog_author'])) {
+			$this->data['pdf_catalog_author'] = $this->request->post['pdf_catalog_author'];
+		} else {
+			$this->data['pdf_catalog_author'] = $this->config->get('pdf_catalog_author');
 		}				
+		if (isset($this->request->post['pdf_catalog_title'])) {
+			$this->data['pdf_catalog_title'] = $this->request->post['pdf_catalog_title'];
+		} else {
+			$this->data['pdf_catalog_title'] = $this->config->get('pdf_catalog_title');
+		}				
+		if (isset($this->request->post['pdf_catalog_subject'])) {
+			$this->data['pdf_catalog_subject'] = $this->request->post['pdf_catalog_subject'];
+		} else {
+			$this->data['pdf_catalog_subject'] = $this->config->get('pdf_catalog_subject');
+		}				
+		if (isset($this->request->post['pdf_catalog_keywords'])) {
+			$this->data['pdf_catalog_keywords'] = $this->request->post['pdf_catalog_keywords'];
+		} else {
+			$this->data['pdf_catalog_keywords'] = $this->config->get('pdf_catalog_keywords');
+		}	
+					
 		
 		$this->data['modules'] = array();
 		

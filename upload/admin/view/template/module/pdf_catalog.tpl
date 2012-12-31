@@ -101,16 +101,16 @@
         </tr>
 
 	      <tr>
-          <td><?php echo $entry_pdf_author; ?> <input type="text" name="author"></text></td>
+          <td><?php echo $entry_pdf_author; ?> <input type="text" name="author"></text><?php echo $pdf_catalog_author;?></td>
 	  </tr>
 	      <tr>
-          <td></text><?php echo $entry_pdf_title; ?> <input type="text" name="title"></td>
+          <td></text><?php echo $entry_pdf_title; ?> <input type="text" name="pdf_catalog_title"><?php echo $pdf_catalog_title;?></td>
 	  </tr>
 	      <tr>
-          <td><?php echo $entry_pdf_subject; ?> <input type="text" name="subject"></text></td>
+          <td><?php echo $entry_pdf_subject; ?> <input type="text" name="pdf_catalog_subject"><?php echo $pdf_catalog_subject;?></text></td>
 	  </tr>
 	      <tr>
-          <td><?php echo $entry_pdf_keywords; ?> <input type="text" name="keywords"></text></td>
+          <td><?php echo $entry_pdf_keywords; ?> <input type="text" name="pdf_catalog_keywords"><?php echo $pdf_catalog_keywords;?></text></td>
 	  </tr>
 		<tr>
           <td><?php echo $entry_description; ?></td>
