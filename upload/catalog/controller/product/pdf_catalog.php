@@ -78,14 +78,14 @@
 			$pdf->SetKeywords($keywords);
 			
 			// set default header data
-			$pdf_logo = "../../../image/".$this->config->get('config_logo');
-			if(@file_exists($pdf_logo) == false)
+			$pdf_logo = "../../../../image/".$this->config->get('config_logo');
+			if(file_exists($pdf_logo) == false)
 			{
-				$pdf_logo = "../../../image/data/pdf_catalog_default_logo.png";
+				$pdf_logo = "pdf_catalog_default_logo.png";
 			}
 			$pdf_title = $this->config->get('config_name');
 			$pdf_string = $this->config->get('config_url');
-			$pdf->SetHeaderData('../'.$pdf_logo, PDF_HEADER_LOGO_WIDTH, $pdf_title, $pdf_string);
+			$pdf->SetHeaderData($pdf_logo, PDF_HEADER_LOGO_WIDTH, $pdf_title, $pdf_string);
 			
 			// set header and footer fonts
 			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
