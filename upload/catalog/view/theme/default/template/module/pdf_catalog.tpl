@@ -35,7 +35,7 @@ foreach($categories as $key => $category)
 <?php
 }else{
 ?>
-<input type="button" class="button" value="
+<input id="pdf_button" type="button" class="button" value="
 <?php echo $text_all_categories; ?>" onclick="fn_pdf_category('0');">
 </input>
 
