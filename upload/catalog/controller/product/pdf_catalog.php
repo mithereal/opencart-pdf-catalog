@@ -63,7 +63,7 @@
 			$item_per_page = 600/$image_height;
 			
 			
-			$this->load->helper('tcpdf/config/lang/eng');
+			$this->load->helper('tcpdf/config/tcpdf_config');
 			$this->load->helper('tcpdf/tcpdf');
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$author=$this->config->get('pdf_catalog_author');
