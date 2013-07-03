@@ -7,6 +7,7 @@
 			
 			
 			$this->data['entry_position'] = $this->language->get('entry_position');
+			$this->data['text_description'] = $this->language->get('text_description');
 			
 			$this->load->model('tool/image');
 			if(!isset($this->request->get['category_id']) || $this->request->get['category_id'] == "0")
@@ -23,8 +24,12 @@
 					{
 						foreach($products as $key2 => $product)
 						{
-							$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));		
+							$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));	
+                                                        if($this->config->get('pdf_catalog_description') && strlen(trim($this->config->get('pdf_catalog_description'))) >1)
+			{
+							$products[$key2]['description'] = $product['description'];		
 						}	
+                                                }
 					}
 					$categories[$key]['products'] = $products;
 					
@@ -40,11 +45,14 @@
 					, 'sort'	=>	'pd.name'
 				);
 				$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
+                                
 				if(!empty($products))
 				{
 					foreach($products as $key2 => $product)
 					{
-						$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));		
+						$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));	
+                                                if($this->config->get('pdf_catalog_display_description') =="1")
+						$products[$key2]['description'] = $product['description'];	
 					}	
 				}
 				$category['products'] = $products;
@@ -55,21 +63,26 @@
 		}
 		
 	
-		private function createPdf($pdf_data){
+		public function createPdf($pdf_data){
 			
-			$image_width = 100;
-			$image_height = 100;
+			//$image_width = 100;
+			$image_width = (int)$this->config->get('pdf_catalog_image_width');
+			//$image_height = 100;
+			$image_height = (int)$this->config->get('pdf_catalog_image_height');
 			
-			$item_per_page = 600/$image_height;
+			//$item_per_page = 600/$image_height;
+			$item_per_page = $this->config->get('pdf_catalog_item_per_page');
 			
 			
 			$this->load->helper('tcpdf/config/tcpdf_config');
 			$this->load->helper('tcpdf/tcpdf');
+                        
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$author=$this->config->get('pdf_catalog_author');
 			$title=$this->config->get('pdf_catalog_title');
 			$subject=$this->config->get('pdf_catalog_subject');
 			$keywords=$this->config->get('pdf_catalog_description');
+                        
 			// set document information
 			$pdf->SetCreator(PDF_CREATOR);
 			$pdf->SetAuthor($author);
@@ -184,8 +197,17 @@
 							$tmp_product = str_replace("{::txt_prdocut_model}", $this->language->get('text_model'), $tmp_product);
 							$tmp_product = str_replace("{::product_model}", $product['model'], $tmp_product);
 							$tmp_product = str_replace("{::txt_product_price}", $this->language->get('text_price'), $tmp_product);
+                                                        if($this->config->get('pdf_catalog_display_description') =="1"){
+							$tmp_product = str_replace("{::txt_product_description}", $this->language->get('text_description'), $tmp_product);
+                                                }else{
+                                                    $tmp_product = str_replace("{::txt_product_description}", '', $tmp_product);
+                                                }
 							$tmp_product = str_replace("{::product_price}", $product['price'], $tmp_product);
-							
+                                                         if($this->config->get('pdf_catalog_display_description') =="1"){
+							$tmp_product = str_replace("{::product_description}", html_entity_decode($product['description']), $tmp_product);
+                                                         }else{
+                                                             $tmp_product = str_replace("{::product_description}",'' , $tmp_product);
+                                                         }
 							$tmp_products .= $tmp_product;
 							$no_of_item++;
 							if(($no_of_item+1) > $item_per_page)

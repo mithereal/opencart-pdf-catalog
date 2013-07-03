@@ -2,7 +2,6 @@
 class ControllerModulePdfcatalog extends Controller {
 	protected function index() {
 		$this->language->load('module/pdf_catalog');	
-		$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/pdf_catalog.css');
 		
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		$this->data['text_select'] = $this->language->get('text_select');

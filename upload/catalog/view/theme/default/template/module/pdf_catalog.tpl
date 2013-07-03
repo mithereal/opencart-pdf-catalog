@@ -15,7 +15,7 @@ if(!empty($categories))
 
 <select style="width:160px;" onchange="fn_pdf_category(this.options[this.selectedIndex].value);">
 <option value=""><?php echo $text_select; ?></option>
-<option value="0"><?php echo $text_all_categories; ?></option>
+
 
 <?php
 foreach($categories as $key => $category)
@@ -35,7 +35,7 @@ foreach($categories as $key => $category)
 <?php
 }else{
 ?>
-<input id="pdf_button" type="button" class="button" value="
+<input type="button" class="button" value="
 <?php echo $text_all_categories; ?>" onclick="fn_pdf_category('0');">
 </input>
 

@@ -8,7 +8,7 @@ $_['text_all_categories']	= 'All categories';
 $_['text_category'] = 'Product:';
 $_['text_model'] = 'Model:';
 $_['text_price'] = 'Price:';
-
+$_['text_description']       = 'Description:';
 $_['text_category_title'] = 'CATEGORIES';
 
 ?>

@@ -15,9 +15,8 @@ class ControllerModulePdfcatalog extends Controller {
 					
 			$this->session->data['success'] = $this->language->get('text_success');
 						
-			$this->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
+			//$this->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
 		}
-				
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
 		$this->data['text_enabled'] = $this->language->get('text_enabled');
@@ -36,6 +35,10 @@ class ControllerModulePdfcatalog extends Controller {
 		$this->data['entry_pdf_title'] = $this->language->get('entry_pdf_title');		
 		$this->data['entry_pdf_subject'] = $this->language->get('entry_pdf_subject');		
 		$this->data['entry_pdf_keywords'] = $this->language->get('entry_pdf_keywords');
+		$this->data['entry_pdf_catalog_display_description'] = $this->language->get('entry_pdf_catalog_display_description');
+		$this->data['entry_pdf_catalog_item_per_page'] = $this->language->get('entry_pdf_catalog_item_per_page');
+		$this->data['entry_pdf_catalog_image_width'] = $this->language->get('entry_pdf_catalog_image_width');
+		$this->data['entry_pdf_catalog_image_height'] = $this->language->get('entry_pdf_catalog_image_height');
 		
 		
 		$this->data['entry_layout'] = $this->language->get('entry_layout');
@@ -55,7 +58,7 @@ class ControllerModulePdfcatalog extends Controller {
 			$this->data['error_warning'] = '';
 		}
 
-  		  		$this->data['breadcrumbs'] = array();
+  		$this->data['breadcrumbs'] = array();
 
    		$this->data['breadcrumbs'][] = array(
        		'text'      => $this->language->get('text_home'),
@@ -79,7 +82,13 @@ class ControllerModulePdfcatalog extends Controller {
 		
 		$this->data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
 		$this->data['modules'] = array();
-	//fixme	
+	
+              if (isset($this->request->post['pdf_catalog_display_description'])) {
+			$this->data['pdf_catalog_display_description'] = $this->request->post['pdf_catalog_display_description'];
+		} else {
+			$this->data['pdf_catalog_display_description'] = $this->config->get('pdf_catalog_display_description');
+		}
+                
 		if (isset($this->request->post['pdf_catalog_module'])) {
 			$this->data['modules'] = $this->request->post['pdf_catalog_module'];
 		} elseif ($this->config->get('pdf_catalog_module')) { 
@@ -89,6 +98,23 @@ class ControllerModulePdfcatalog extends Controller {
 			$this->data['pdf_catalog_position'] = $this->request->post['pdf_catalog_position'];
 		} else {
 			$this->data['pdf_catalog_position'] = $this->config->get('pdf_catalog_position');
+		}
+		
+		if (isset($this->request->post['pdf_catalog_item_per_page'])) {
+			$this->data['pdf_catalog_item_per_page'] = $this->request->post['pdf_catalog_item_per_page'];
+		} else {
+			$this->data['pdf_catalog_item_per_page'] = $this->config->get('pdf_catalog_item_per_page');
+		}
+		if (isset($this->request->post['pdf_catalog_image_width'])) {
+			$this->data['pdf_catalog_image_width'] = $this->request->post['pdf_catalog_image_width'];
+		} else {
+			$this->data['pdf_catalog_image_width'] = $this->config->get('pdf_catalog_image_width');
+		}
+
+		if (isset($this->request->post['pdf_catalog_image_height'])) {
+			$this->data['pdf_catalog_image_height'] = $this->request->post['pdf_catalog_image_height'];
+		} else {
+			$this->data['pdf_catalog_image_height'] = $this->config->get('pdf_catalog_image_height');
 		}
 		
 		if (isset($this->request->post['pdf_catalog_status'])) {
@@ -160,7 +186,95 @@ class ControllerModulePdfcatalog extends Controller {
 		$this->response->setOutput($this->render(TRUE), $this->config->get('config_compression'));
 	}
 	
-	private function validate() {
+	public function makepdf() { 
+			$this->load->config('pdf_catalog');
+			$this->load->model('catalog/pdf_catalog');
+			$this->load->language('module/pdf_catalog');
+			
+			
+			$this->data['entry_position'] = $this->language->get('entry_position');
+			
+			$this->load->model('tool/image');
+			if(!isset($this->request->get['category_id']) || $this->request->get['category_id'] == "0")
+			{
+				$categories = $this->model_catalog_pdf_catalog->getCategories(0);
+				$data = array(
+					  'filter_status' 	=>	1
+					, 'sort'	=>	'pd.name'
+				);
+				foreach($categories as $key => $category)
+				{
+					$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
+					if(!empty($products))
+					{
+						foreach($products as $key2 => $product)
+						{
+							$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));		
+							$products[$key2]['description'] = $product['description'];		
+						}	
+					}
+					$categories[$key]['products'] = $products;
+					
+				}
+				
+				$this->createPdf($categories);
+			}
+			elseif($this->request->get['category_id'] != "0")
+			{
+				$category = $this->model_catalog_pdf_catalog->getCategory($this->request->get['category_id']);
+				$data = array(
+					  'status' 	=>	1
+					, 'sort'	=>	'pd.name'
+				);
+				$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
+				if(!empty($products))
+				{
+					foreach($products as $key2 => $product)
+					{
+						$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));		
+						$products[$key2]['description'] = $product['description'];	
+					}	
+				}
+				$category['products'] = $products;
+				
+				$this->createPdf(array(0=>$category));
+			}
+			
+		}
+		
+                public function uninstall() {
+            $this->db->query("
+	DELETE FROM " . DB_PREFIX . "setting 
+	WHERE `group` = 'pdf_catalog' 
+	");
+        }
+        
+	public function install() {
+$this->load->model('setting/setting');     
+$this->db->query("
+	INSERT INTO " . DB_PREFIX . "setting (
+	`setting_id` ,
+	`store_id` ,
+	`group` ,
+	`key` ,
+	`value` ,
+	`serialized`
+	)
+	VALUES (
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_image_height', '100', '0'
+	),(
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_image_width', '100', '0'
+	),(
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_item_per_page', '6', '0'
+	),(
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_display_description', '0', '0'
+	);");
+        }
+        
+        
+                
+                
+        private function validate() {
 		if (!$this->user->hasPermission('modify', 'module/pdf_catalog')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}

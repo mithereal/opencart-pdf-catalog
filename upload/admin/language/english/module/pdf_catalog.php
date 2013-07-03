@@ -6,6 +6,7 @@ $_['heading_title']    = 'PDF Catalog';
 $_['text_module']      = 'Modules';
 $_['text_success']     = 'Success: You have modified module PDF catalog!';
 $_['text_hide']       = 'Hide';
+$_['text_description']       = 'Description';
 $_['text_content_top']    = 'Content Top';
 $_['text_content_bottom'] = 'Content Bottom';
 $_['text_column_left']    = 'Column Left';
@@ -25,6 +26,10 @@ $_['entry_pdf_author'] = 'Author:';
 $_['entry_pdf_title'] = 'Title:';
 $_['entry_pdf_subject'] = 'Subject:';
 $_['entry_pdf_keywords'] = 'Keywords:';
+$_['entry_pdf_catalog_display_description'] = 'Display Item Description:';
+$_['entry_pdf_catalog_image_height'] = 'Image Height:';
+$_['entry_pdf_catalog_image_width'] = 'Image Width:';
+$_['entry_pdf_catalog_item_per_page'] = 'Max Images Per Page:';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify module PDF catalog!';

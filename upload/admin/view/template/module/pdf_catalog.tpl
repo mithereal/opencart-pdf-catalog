@@ -101,17 +101,45 @@
         </tr>
 
 	      <tr>
-          <td><?php echo $entry_pdf_author; ?> <input type="text" name="pdf_catalog_author" value="<?php echo $pdf_catalog_author;?>"></text></td>
+          <td><?php echo $entry_pdf_author; ?> </td>
+              <td><input type="text" name="pdf_catalog_author" value="<?php echo $pdf_catalog_author;?>"/></td>
+	  </tr>
+	  <tr>
+          <td><?php echo $entry_pdf_title; ?> </td>
+              <td><input type="text" name="pdf_catalog_title" value="<?php echo $pdf_catalog_title;?>"/></td>
 	  </tr>
 	      <tr>
-          <td></text><?php echo $entry_pdf_title; ?> <input type="text" name="pdf_catalog_title" value="<?php echo $pdf_catalog_title;?>"></td>
+          <td><?php echo $entry_pdf_subject; ?> </td>
+              <td><input type="text" name="pdf_catalog_subject" value="<?php echo $pdf_catalog_subject;?>"/></td>
 	  </tr>
 	      <tr>
-          <td><?php echo $entry_pdf_subject; ?> <input type="text" name="pdf_catalog_subject" value="<?php echo $pdf_catalog_subject;?>"></text></td>
+          <td><?php echo $entry_pdf_keywords; ?> </td>
+             <td> <input type="text" name="pdf_catalog_keywords" value="<?php echo $pdf_catalog_keywords;?>"/></td>
 	  </tr>
 	      <tr>
-          <td><?php echo $entry_pdf_keywords; ?> <input type="text" name="pdf_catalog_keywords" value="<?php echo $pdf_catalog_keywords;?>"></text></td>
+          <td><?php echo $entry_pdf_catalog_image_height; ?> </td>
+             <td> <input type="text" name="pdf_catalog_image_height" value="<?php echo $pdf_catalog_image_height;?>"/></td>
 	  </tr>
+	      <tr>
+          <td><?php echo $entry_pdf_catalog_image_width; ?> </td>
+             <td> <input type="text" name="pdf_catalog_image_width" value="<?php echo $pdf_catalog_image_width;?>"/></td>
+	  </tr>
+	      <tr>
+          <td><?php echo $entry_pdf_catalog_item_per_page; ?> </td>
+             <td> <input type="text" name="pdf_catalog_item_per_page" value="<?php echo $pdf_catalog_item_per_page;?>"/></td>
+	   
+          <tr>
+          <td><?php echo $entry_pdf_catalog_display_description; ?></td>
+          <td><select name="pdf_catalog_display_description">
+              <?php if ($pdf_catalog_display_description) { ?>
+              <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+              <option value="0"><?php echo $text_no; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_yes; ?></option>
+              <option value="0" selected="selected"><?php echo $text_no; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
 		<tr>
           <td><?php echo $entry_description; ?></td>
           <td>
