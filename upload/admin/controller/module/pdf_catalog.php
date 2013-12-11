@@ -1,4 +1,15 @@
 <?php
+/*
+  Id: pdf_catalog.php
+
+  Copyright (c) 2013 Jason Clark(mithereal@gmail.com)
+
+  Released under the GNU General Public License
+  
+  For more information, please see the github repo: http://github.com/mithereal
+  
+  Coded to: Dethklok, Make them Suffer
+*/
 class ControllerModulePdfcatalog extends Controller {
 	private $error = array(); 
 		
@@ -31,7 +42,9 @@ class ControllerModulePdfcatalog extends Controller {
 		
 		$this->data['entry_display_categories'] = $this->language->get('entry_display_categories');		
 		$this->data['entry_pdf_creator'] = $this->language->get('entry_pdf_creator');		
+		$this->data['entry_display_toc'] = $this->language->get('entry_display_toc');		
 		$this->data['entry_pdf_author'] = $this->language->get('entry_pdf_author');		
+		$this->data['entry_pdf_max_products'] = $this->language->get('entry_pdf_max_products');		
 		$this->data['entry_pdf_title'] = $this->language->get('entry_pdf_title');		
 		$this->data['entry_pdf_subject'] = $this->language->get('entry_pdf_subject');		
 		$this->data['entry_pdf_keywords'] = $this->language->get('entry_pdf_keywords');
@@ -110,6 +123,16 @@ class ControllerModulePdfcatalog extends Controller {
 		} else {
 			$this->data['pdf_catalog_image_width'] = $this->config->get('pdf_catalog_image_width');
 		}
+		if (isset($this->request->post['pdf_catalog_display_toc'])) {
+			$this->data['pdf_catalog_display_toc'] = $this->request->post['pdf_catalog_display_toc'];
+		} else {
+			$this->data['pdf_catalog_display_toc'] = $this->config->get('pdf_catalog_display_toc');
+		}
+		if (isset($this->request->post['pdf_catalog_max_products'])) {
+			$this->data['pdf_catalog_max_products'] = $this->request->post['pdf_catalog_max_products'];
+		} else {
+			$this->data['pdf_catalog_max_products'] = $this->config->get('pdf_catalog_max_products');
+		}
 
 		if (isset($this->request->post['pdf_catalog_image_height'])) {
 			$this->data['pdf_catalog_image_height'] = $this->request->post['pdf_catalog_image_height'];
@@ -186,61 +209,6 @@ class ControllerModulePdfcatalog extends Controller {
 		$this->response->setOutput($this->render(TRUE), $this->config->get('config_compression'));
 	}
 	
-	public function makepdf() { 
-			$this->load->config('pdf_catalog');
-			$this->load->model('catalog/pdf_catalog');
-			$this->load->language('module/pdf_catalog');
-			
-			
-			$this->data['entry_position'] = $this->language->get('entry_position');
-			
-			$this->load->model('tool/image');
-			if(!isset($this->request->get['category_id']) || $this->request->get['category_id'] == "0")
-			{
-				$categories = $this->model_catalog_pdf_catalog->getCategories(0);
-				$data = array(
-					  'filter_status' 	=>	1
-					, 'sort'	=>	'pd.name'
-				);
-				foreach($categories as $key => $category)
-				{
-					$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
-					if(!empty($products))
-					{
-						foreach($products as $key2 => $product)
-						{
-							$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));		
-							$products[$key2]['description'] = $product['description'];		
-						}	
-					}
-					$categories[$key]['products'] = $products;
-					
-				}
-				
-				$this->createPdf($categories);
-			}
-			elseif($this->request->get['category_id'] != "0")
-			{
-				$category = $this->model_catalog_pdf_catalog->getCategory($this->request->get['category_id']);
-				$data = array(
-					  'status' 	=>	1
-					, 'sort'	=>	'pd.name'
-				);
-				$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
-				if(!empty($products))
-				{
-					foreach($products as $key2 => $product)
-					{
-						$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));		
-						$products[$key2]['description'] = $product['description'];	
-					}	
-				}
-				$category['products'] = $products;
-				
-				$this->createPdf(array(0=>$category));
-			}
-			
-		}
 		
                 public function uninstall() {
             $this->db->query("
@@ -265,7 +233,11 @@ $this->db->query("
 	),(
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_image_width', '100', '0'
 	),(
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_display_toc', '1', '0'
+	),(
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_item_per_page', '6', '0'
+	),(
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_max_products', '200', '0'
 	),(
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_display_description', '0', '0'
 	);");

@@ -94,17 +94,17 @@ class ModelCatalogPdfcatalog extends Model {
 			$sql .= " ASC";
 		}
 	
-		if (isset($data['start']) || isset($data['limit'])) {
-			if ($data['start'] < 0) {
-				$data['start'] = 0;
-			}				
 
+
+	if(isset($data['limit'])){
 			if ($data['limit'] < 1) {
 				$data['limit'] = 20;
 			}	
 		
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-		}	
+			$sql .= " LIMIT " . 0 . "," . (int)$data['limit'];
+		}	 
+		
+	
 		$query = $this->db->query($sql);
 								  
 		return $query->rows;
