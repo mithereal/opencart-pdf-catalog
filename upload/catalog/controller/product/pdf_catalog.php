@@ -249,7 +249,13 @@ foreach($sizes as $k=>$size){
                             } else {
                                 $image = 'no_image.jpg';
                             }
-
+                           $description = strip_tags($product['description']); 
+                           $description = html_entity_decode($description); 
+                           $description = strip_tags($description); 
+                           $description = $this->truncate($description,$this->config->get('pdf_catalog_description_chars'));
+                           $description .= '...'; 
+                           
+                           
                             $thumb = $this->model_tool_image->resize($image, $image_width, $image_height);
                             $thumb = str_replace(HTTP_SERVER, "", $thumb);
                             $tmp_product = str_replace("{::product_image}", $thumb, $html_template_product);
@@ -258,17 +264,24 @@ foreach($sizes as $k=>$size){
                             $tmp_product = str_replace("{::txt_prdocut_model}", $this->language->get('text_model'), $tmp_product);
                             $tmp_product = str_replace("{::product_model}", $product['model'], $tmp_product);
                             $tmp_product = str_replace("{::txt_product_price}", $this->language->get('text_price'), $tmp_product);
-                            if ($this->config->get('pdf_catalog_display_description') == "1") {
+                            
+                          
+                            
+                            if ($this->config->get('pdf_catalog_display_description') == "1") { 
                                 $tmp_product = str_replace("{::txt_product_description}", $this->language->get('text_description'), $tmp_product);
                             } else {
                                 $tmp_product = str_replace("{::txt_product_description}", '', $tmp_product);
                             }
-                            $tmp_product = str_replace("{::product_price}", $product['price'], $tmp_product);
+                            
                             if ($this->config->get('pdf_catalog_display_description') == "1") {
-                                $tmp_product = str_replace("{::product_description}", html_entity_decode($product['description']), $tmp_product);
+                               
+                                $tmp_product = str_replace("{::product_description}", $description, $tmp_product);
                             } else {
                                 $tmp_product = str_replace("{::product_description}", '', $tmp_product);
                             }
+                            
+                            $tmp_product = str_replace("{::product_price}", $product['price'], $tmp_product);
+                            
                             $tmp_products .= $tmp_product;
                             $no_of_item++;
                             if (($no_of_item + 1) > $item_per_page) {
@@ -302,6 +315,22 @@ foreach($sizes as $k=>$size){
         }else{
 			echo "Category # ". $this->request->get['category_id'] . " Not Found";
 		}
+    }
+    
+    public function truncate($string, $lines) {
+        $parts = preg_split('/([\s\n\r]+)/', $string, null, PREG_SPLIT_DELIM_CAPTURE);
+        $parts_count = count($parts);
+
+        $length = 0;
+        $last_part = 0;
+        for (; $last_part < $parts_count; ++$last_part) {
+            $length += strlen($parts[$last_part]);
+            if ($length > $lines) {
+                break;
+            }
+        }
+
+        return implode(array_slice($parts, 0, $last_part));
     }
 
 }

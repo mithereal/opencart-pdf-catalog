@@ -52,6 +52,7 @@ class ControllerModulePdfcatalog extends Controller {
 		$this->data['entry_pdf_catalog_item_per_page'] = $this->language->get('entry_pdf_catalog_item_per_page');
 		$this->data['entry_pdf_catalog_image_width'] = $this->language->get('entry_pdf_catalog_image_width');
 		$this->data['entry_pdf_catalog_image_height'] = $this->language->get('entry_pdf_catalog_image_height');
+		$this->data['entry_pdf_catalog_description_chars'] = $this->language->get('entry_pdf_catalog_description_chars');
 		
 		
 		$this->data['entry_layout'] = $this->language->get('entry_layout');
@@ -184,6 +185,11 @@ class ControllerModulePdfcatalog extends Controller {
 		} else {
 			$this->data['pdf_catalog_keywords'] = $this->config->get('pdf_catalog_keywords');
 		}	
+		if (isset($this->request->post['pdf_catalog_description_chars'])) {
+			$this->data['pdf_catalog_description_chars'] = $this->request->post['pdf_catalog_description_chars'];
+		} else {
+			$this->data['pdf_catalog_description_chars'] = $this->config->get('pdf_catalog_description_chars');
+		}	
 					
 		
 		$this->data['modules'] = array();
@@ -238,6 +244,8 @@ $this->db->query("
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_item_per_page', '6', '0'
 	),(
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_max_products', '200', '0'
+	),(
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_description_chars', '75', '0'
 	),(
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_display_description', '0', '0'
 	);");

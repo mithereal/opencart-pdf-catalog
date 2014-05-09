@@ -32,6 +32,7 @@ $_['entry_pdf_catalog_display_description'] = 'Display Item Description:';
 $_['entry_pdf_catalog_image_height'] = 'Image Height:';
 $_['entry_pdf_catalog_image_width'] = 'Image Width:';
 $_['entry_pdf_catalog_item_per_page'] = 'Max Images Per Page:';
+$_['entry_pdf_catalog_description_chars'] = 'Max Chars in Description:';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify module PDF catalog!';

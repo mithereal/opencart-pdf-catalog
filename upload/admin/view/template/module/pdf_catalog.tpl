@@ -156,13 +156,17 @@
               <option value="0" selected="selected"><?php echo $text_no; ?></option>
               <?php } ?>
             </select></td>
+            <td><?php echo $entry_pdf_catalog_description_chars; ?>
+                <input type="text" name="pdf_catalog_description_chars" value="<?php echo $pdf_catalog_description_chars;?>"/></td>
         </tr>
-		<tr>
-          <td><?php echo $entry_description; ?></td>
-          <td>
-          		<textarea name="pdf_catalog_description" id="pdf_catalog_description"><?php echo $pdf_catalog_description;?></textarea>
-		  </td>
+	
+        <tr>
+        <td><?php echo $entry_description; ?></td>
+        <td>
+          <textarea name="pdf_catalog_description" id="pdf_catalog_description"><?php echo $pdf_catalog_description;?></textarea>
+	</td>
         </tr>
+        
       </table>
     </form>
   </div>
