@@ -308,6 +308,8 @@ foreach($sizes as $k=>$size){
             //echo $pdf_content;die;
             // reset pointer to the last page
             $pdf->lastPage();
+            $lastpage=$pdf->getPage();
+            $pdf->deletePage($lastpage);
 
             //Close and output PDF document
             $pdf->Output('catalog.pdf', 'I');
