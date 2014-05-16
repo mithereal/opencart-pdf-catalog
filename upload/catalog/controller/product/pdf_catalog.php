@@ -252,6 +252,8 @@ foreach($sizes as $k=>$size){
                            $description = strip_tags($product['description']); 
                            $description = html_entity_decode($description); 
                            $description = strip_tags($description); 
+                           $description = trim($description); 
+                         
                            $description = $this->truncate($description,$this->config->get('pdf_catalog_description_chars'));
                            $description .= '...'; 
                            
@@ -320,6 +322,7 @@ foreach($sizes as $k=>$size){
     }
     
     public function truncate($string, $lines) {
+        if($lines > 1){
         $parts = preg_split('/([\s\n\r]+)/', $string, null, PREG_SPLIT_DELIM_CAPTURE);
         $parts_count = count($parts);
 
@@ -331,8 +334,9 @@ foreach($sizes as $k=>$size){
                 break;
             }
         }
-
-        return implode(array_slice($parts, 0, $last_part));
+        $string=implode(array_slice($parts, 0, $last_part));
+        }
+        return $string;
     }
 
 }
