@@ -13,6 +13,7 @@ $_['text_column_left']    = 'Column Left';
 $_['text_column_right']   = 'Column Right';
 $_['text_yes'] = 'Yes';
 $_['text_no'] = 'No';
+$_['text_native'] = 'Native';
 
 // Entry
 $_['entry_layout']        = 'Layout:';
@@ -33,6 +34,10 @@ $_['entry_pdf_catalog_image_height'] = 'Image Height:';
 $_['entry_pdf_catalog_image_width'] = 'Image Width:';
 $_['entry_pdf_catalog_item_per_page'] = 'Max Images Per Page:';
 $_['entry_pdf_catalog_description_chars'] = 'Max Chars in Description:';
+$_['entry_pdf_catalog_template_type'] = 'Template Type:';
+$_['entry_display_out_of_stock'] = 'Display out of stock Products:';
+$_['entry_display_disabled'] = 'Display disabled Products:';
+$_['entry_display_subcategories'] = 'Display Subcategories:';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify module PDF catalog!';

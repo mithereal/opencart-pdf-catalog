@@ -86,7 +86,24 @@
           </table>
           <table id="module" class="form ">
 
-	  
+	  <!-- 
+		<tr>
+          <td><?php echo $entry_pdf_catalog_template_type; ?></td>
+          <td><select name="pdf_catalog_template_type">
+              <?php if ($pdf_catalog_template_type == "native") { ?>
+              <option value="html">HTML</option>
+              <option value="native" selected="selected"><?php echo $text_native; ?></option>
+              <?php } else { ?>
+             <option value="html" selected="selected">HTML</option>
+              <option value="native"><?php echo $text_native; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
+   -->
+  
+	<tr>
+          <td> <h2>Frontend</h2></td>
+        </tr>
 		<tr>
           <td><?php echo $entry_display_categories; ?></td>
           <td><select name="pdf_catalog_display_categories">
@@ -99,11 +116,50 @@
               <?php } ?>
             </select></td>
         </tr>
-        
+		<tr>
+          <td><?php echo $entry_display_subcategories; ?></td>
+          <td><select name="pdf_catalog_display_subcategories">
+              <?php if ($pdf_catalog_display_subcategories) { ?>
+              <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+              <option value="0"><?php echo $text_no; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_yes; ?></option>
+              <option value="0" selected="selected"><?php echo $text_no; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
+      
+        <tr>
+          <td> <h2>PDF</h2></td>
+        </tr>
 		<tr>
           <td><?php echo $entry_display_toc; ?></td>
           <td><select name="pdf_catalog_display_toc">
               <?php if ($pdf_catalog_display_toc) { ?>
+              <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+              <option value="0"><?php echo $text_no; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_yes; ?></option>
+              <option value="0" selected="selected"><?php echo $text_no; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
+		<tr>
+          <td><?php echo $entry_display_out_of_stock; ?></td>
+          <td><select name="pdf_catalog_display_out_of_stock">
+              <?php if ($pdf_catalog_display_out_of_stock) { ?>
+              <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+              <option value="0"><?php echo $text_no; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_yes; ?></option>
+              <option value="0" selected="selected"><?php echo $text_no; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
+		<tr>
+          <td><?php echo $entry_display_disabled; ?></td>
+          <td><select name="pdf_catalog_display_disabled">
+              <?php if ($pdf_catalog_display_disabled) { ?>
               <option value="1" selected="selected"><?php echo $text_yes; ?></option>
               <option value="0"><?php echo $text_no; ?></option>
               <?php } else { ?>

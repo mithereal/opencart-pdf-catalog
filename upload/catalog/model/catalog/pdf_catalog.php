@@ -43,6 +43,31 @@ class ModelCatalogPdfcatalog extends Model {
 		
 		return $category_data;
 	}
+	public function getMaincategories() {
+		$category_data = $this->cache->get('category.0' . $this->config->get('config_language_id') );
+	
+		if (!$category_data) {
+			$category_data = array();
+		
+			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id) WHERE c.status = '1' AND c.parent_id = '0' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY c.sort_order, cd.name ASC");
+		
+			foreach ($query->rows as $result) {
+				$category_data[] = array(
+					'category_id' 	=> $result['category_id'],
+					'name'        	=> $this->getPath($result['category_id'], $this->config->get('config_language_id')),
+					'status'  	  	=> $result['status'],
+					'sort_order'  	=> $result['sort_order'],
+					
+				);
+				
+				
+			}	
+	
+			$this->cache->set('category.0' . $this->config->get('config_language_id') , $category_data);
+		}
+		
+		return $category_data;
+	}
 	
 	public function getProductsByCategoryId($category_id, $data) {
 		$sql = "
@@ -67,7 +92,7 @@ class ModelCatalogPdfcatalog extends Model {
 		}
 		
 		if (isset($data['filter_quantity']) && !is_null($data['filter_quantity'])) {
-			$sql .= " AND p.quantity = '" . $this->db->escape($data['filter_quantity']) . "'";
+			$sql .= " AND p.quantity >= '" . $this->db->escape($data['filter_quantity']) . "'";
 		}
 		
 		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
