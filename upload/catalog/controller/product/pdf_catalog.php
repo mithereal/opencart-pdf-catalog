@@ -22,6 +22,13 @@ class ControllerProductPdfcatalog extends Controller {
             'limit' => $limit
         );
 
+        if($this->config->get('pdf_catalog_display_disabled') == 0){
+            $data['filter_status'] = 1;
+        }
+        if($this->config->get('pdf_catalog_display_out_of_stock') == 0){
+            $data['filter_quantity'] = 1;
+        }
+
         if (!isset($this->request->get['category_id']) || $this->request->get['category_id'] == "0") {
             $categories = $this->model_catalog_pdf_catalog->getCategories(0);
 
@@ -46,18 +53,6 @@ class ControllerProductPdfcatalog extends Controller {
 
             if (count($categories) > 0) {
 
-                $data = array(
-                    'status' => 1,
-                    'sort' => 'pd.name',
-                    'limit' => $limit
-                );
-                
-                if($this->config->get('pdf_catalog_display_disabled') == 0){
-                    $data['filter_status'] = 1;
-                }
-                if($this->config->get('pdf_catalog_display_out_of_stock') == 0){
-                    $data['filter_quantity'] = 1;
-                }
 
                 if (isset($category['category_id'])) {
                     $products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
