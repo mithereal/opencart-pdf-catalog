@@ -139,6 +139,7 @@ class ControllerModulePdfcatalog extends Controller {
 		} else {
 			$this->data['pdf_catalog_display_toc'] = $this->config->get('pdf_catalog_display_toc');
 		}
+		
 		if (isset($this->request->post['pdf_catalog_max_products'])) {
 			$this->data['pdf_catalog_max_products'] = $this->request->post['pdf_catalog_max_products'];
 		} else {
@@ -205,10 +206,10 @@ class ControllerModulePdfcatalog extends Controller {
 		} else {
 			$this->data['pdf_catalog_template_type'] = $this->config->get('pdf_catalog_template_type');
 		}	
-		if (isset($this->request->post['pdf_catalog_out_of_stock'])) {
-			$this->data['pdf_catalog_out_of_stock'] = $this->request->post['pdf_catalog_out_of_stock'];
+		if (isset($this->request->post['pdf_catalog_display_out_of_stock'])) {
+			$this->data['pdf_catalog_display_out_of_stock'] = $this->request->post['pdf_catalog_display_out_of_stock'];
 		} else {
-			$this->data['pdf_catalog_out_of_stock'] = $this->config->get('pdf_catalog_out_of_stock');
+			$this->data['pdf_catalog_display_out_of_stock'] = $this->config->get('pdf_catalog_display_out_of_stock');
 		}	
 		if (isset($this->request->post['pdf_catalog_display_disabled'])) {
 			$this->data['pdf_catalog_display_disabled'] = $this->request->post['pdf_catalog_display_disabled'];
