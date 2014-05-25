@@ -305,7 +305,6 @@ class ControllerProductPdfcatalog extends Controller {
                         $description = trim($description);
 
                         $description = $this->truncate($description, $this->config->get('pdf_catalog_description_chars'));
-                        $description .= '...';
 
                         $thumb = $this->model_tool_image->resize($image, $image_width, $image_height);
                         $thumb = str_replace(HTTP_SERVER, "", $thumb);
@@ -361,14 +360,16 @@ class ControllerProductPdfcatalog extends Controller {
             $parts_count = count($parts);
 
             $length = 0;
+	    $end = '';
             $last_part = 0;
             for (; $last_part < $parts_count; ++$last_part) {
                 $length += strlen($parts[$last_part]);
                 if ($length > $lines) {
+		    $end = ' ...';
                     break;
                 }
             }
-            $string = implode(array_slice($parts, 0, $last_part));
+            $string = implode(array_slice($parts, 0, $last_part)) . $end;
         }
         return $string;
     }
