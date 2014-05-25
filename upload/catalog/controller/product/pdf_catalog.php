@@ -14,9 +14,11 @@ class ControllerProductPdfcatalog extends Controller {
 
         $this->load->model('tool/image');
         $limit = $this->config->get('pdf_catalog_max_products');
+        $sort = $this->config->get('pdf_catalog_sort_products');
         $data = array(
             'status' => 1,
             'sort' => 'pd.name',
+           // 'sort' => $sort,
             'limit' => $limit
         );
 

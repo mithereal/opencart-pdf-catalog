@@ -40,6 +40,8 @@ class ControllerModulePdfcatalog extends Controller {
 		$this->data['text_yes'] = $this->language->get('text_yes');
 		$this->data['text_no'] = $this->language->get('text_no');
 		$this->data['text_native'] = $this->language->get('text_native');
+		$this->data['text_product_name'] = $this->language->get('text_product_name');
+		$this->data['text_product_popular'] = $this->language->get('text_product_popular');
 		
 		$this->data['entry_display_categories'] = $this->language->get('entry_display_categories');		
 		$this->data['entry_pdf_creator'] = $this->language->get('entry_pdf_creator');		
@@ -66,6 +68,7 @@ class ControllerModulePdfcatalog extends Controller {
                 $this->data['entry_display_out_of_stock'] = $this->language->get('entry_display_out_of_stock');
                 $this->data['entry_display_disabled'] = $this->language->get('entry_display_disabled');
                 $this->data['entry_display_subcategories'] = $this->language->get('entry_display_subcategories');
+                $this->data['entry_sort_products'] = $this->language->get('entry_sort_products');
 
 		
 		$this->data['button_save'] = $this->language->get('button_save');
@@ -217,6 +220,11 @@ class ControllerModulePdfcatalog extends Controller {
 		} else {
 			$this->data['pdf_catalog_display_subcategories'] = $this->config->get('pdf_catalog_display_subcategories');
 		}	
+		if (isset($this->request->post['pdf_catalog_sort_products'])) {
+			$this->data['pdf_catalog_sort_products'] = $this->request->post['pdf_catalog_sort_products'];
+		} else {
+			$this->data['pdf_catalog_sort_products'] = $this->config->get('pdf_catalog_sort_products');
+		}	
 					
 		
 		$this->data['modules'] = array();
@@ -283,6 +291,8 @@ $this->db->query("
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_display_out_of_stock', '0', '0'
 	),(
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_display_subcategories', '1', '0'
+	),(
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_sort_products', 'pd.name', '0'
 	),(
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_display_description', '0', '0'
 	);

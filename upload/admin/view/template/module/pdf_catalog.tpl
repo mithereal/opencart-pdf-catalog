@@ -168,7 +168,20 @@
               <?php } ?>
             </select></td>
         </tr>
-
+        <!--
+		<tr>
+          <td><?php echo $entry_sort_products; ?></td>
+          <td><select name="pdf_catalog_sort_products">
+              <?php if ($pdf_catalog_sort_products == 'pd.name') { ?>
+              <option value="pd.name" selected="selected"><?php echo $text_product_name; ?></option>
+              <option value="quantitytotal"><?php echo $text_product_popular; ?></option>
+              <?php } else { ?>
+              <option value="pd.name"><?php echo $text_product_name; ?></option>
+              <option value="quantitytotal" selected="selected"><?php echo $text_product_popular; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
+        -->
 	      <tr>
           <td><?php echo $entry_pdf_max_products; ?> </td>
               <td><input type="text" name="pdf_catalog_max_products" value="<?php echo $pdf_catalog_max_products;?>"/></td>

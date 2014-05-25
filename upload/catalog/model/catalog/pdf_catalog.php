@@ -70,6 +70,7 @@ class ModelCatalogPdfcatalog extends Model {
 	}
 	
 	public function getProductsByCategoryId($category_id, $data) {
+
 		$sql = "
 			SELECT 
 				* 
@@ -129,10 +130,12 @@ class ModelCatalogPdfcatalog extends Model {
 			$sql .= " LIMIT " . 0 . "," . (int)$data['limit'];
 		}	 
 		
-	
+	//var_dump($sql);
 		$query = $this->db->query($sql);
 								  
 		return $query->rows;
 	} 
+        
+       
 }
 ?>
