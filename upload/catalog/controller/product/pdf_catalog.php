@@ -327,7 +327,7 @@ class ControllerProductPdfcatalog extends Controller {
 
                         $tmp_products .= $tmp_product;
                         $no_of_item++;
-                        if (($no_of_item + 1) > $item_per_page) {
+                        if ($item_per_page > 0 && ($no_of_item + 1) > $item_per_page) {
                             $pdf_content .= str_replace("{::products}", $tmp_products, $tmp_category) . '<div class="page_break"></div>';
                             $tmp_products = "";
                             $no_of_item = 0;
