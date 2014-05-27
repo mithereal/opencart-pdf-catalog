@@ -13,5 +13,5 @@ $_['text_category_title'] = 'CATEGORIES';
 $_['text_product_attributes'] = 'Attributes:';
 $_['text_product_discounts'] = 'Discounts:';
 $_['text_product_options'] = 'Options:';
-$_['text_product_specials'] = 'Specials"';
+$_['text_product_specials'] = 'Specials';
 ?>
