@@ -307,6 +307,7 @@ class ControllerProductPdfcatalog extends Controller {
                             $image = 'no_image.jpg';
                         }
                         $description = html_entity_decode($product['description']);
+                 
                         $description = $this->fixfontsize($description);
                         $description = trim($description);
                         $description = $this->truncate($description, $this->config->get('pdf_catalog_description_chars'), $ending = '...', $exact = false, $considerHtml = true);
@@ -340,9 +341,15 @@ class ControllerProductPdfcatalog extends Controller {
                         if(isset($product['options'])){
                         $tmp_product = str_replace("{::txt_product_options}", $this->language->get('text_product_options'), $tmp_product);
                         $product_options='<ul>';
-                        foreach($product['options'] as $option){
-                           
-                           $product_options.='<li>'.$option['name'].'</li>';
+                        foreach($product['options'] as $option){ 
+                             $product_options.='<li></li>';
+                             $product_options.='<li>'.$option['name'].'</li>';
+                            if(is_array($option['option_value'])){
+                           foreach($option['option_value'] as $val){
+                               
+                           $product_options.='<li>'.$val['name'].'    '.$val['price_prefix'].'     $'.$val['price'].'</li>';
+                           }
+                           }
                            
                         }
                         $product_options.='</ul>';
@@ -378,8 +385,8 @@ class ControllerProductPdfcatalog extends Controller {
     }
 
     function fixfontsize($text) {
-        $pattern='/<font size=".*"/';
-        $replacement='<font ';
+        $pattern='/size=".*"/';
+        $replacement='';
         
         $text= preg_replace ($pattern , $replacement , $text );
         return $text;
