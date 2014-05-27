@@ -17,6 +17,7 @@ $_['text_native'] = 'Native';
 $_['text_product_popular'] = 'Most Sold Products';
 $_['text_product_name'] = 'Products Name';
 
+
 // Entry
 $_['entry_layout']        = 'Layout:';
 $_['entry_position']   = 'Position:';
@@ -41,6 +42,8 @@ $_['entry_display_out_of_stock'] = 'Display out of stock Products:';
 $_['entry_display_disabled'] = 'Display disabled Products:';
 $_['entry_display_subcategories'] = 'Display Subcategories:';
 $_['entry_sort_products'] = 'Sort Products By:';
+$_['entry_pdf_max_options'] = 'Max option types to list:';
+$_['entry_pdf_max_per_options'] = 'Max options per option type:';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify module PDF catalog!';

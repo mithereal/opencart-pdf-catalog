@@ -57,6 +57,8 @@ class ControllerModulePdfcatalog extends Controller {
 		$this->data['entry_pdf_catalog_image_height'] = $this->language->get('entry_pdf_catalog_image_height');
 		$this->data['entry_pdf_catalog_description_chars'] = $this->language->get('entry_pdf_catalog_description_chars');
 		$this->data['entry_pdf_catalog_template_type'] = $this->language->get('entry_pdf_catalog_template_type');
+		$this->data['entry_pdf_catalog_max_options'] = $this->language->get('entry_pdf_catalog_max_options');
+		$this->data['entry_pdf_catalog_max_per_options'] = $this->language->get('entry_pdf_catalog_max_per_options');
 		
 		
 		
@@ -226,6 +228,16 @@ class ControllerModulePdfcatalog extends Controller {
 		} else {
 			$this->data['pdf_catalog_sort_products'] = $this->config->get('pdf_catalog_sort_products');
 		}	
+		if (isset($this->request->post['pdf_catalog_max_options'])) {
+			$this->data['pdf_catalog_max_options'] = $this->request->post['pdf_catalog_max_options'];
+		} else {
+			$this->data['pdf_catalog_max_options'] = $this->config->get('pdf_catalog_max_options');
+		}	
+		if (isset($this->request->post['pdf_catalog_max_per_options'])) {
+			$this->data['pdf_catalog_max_per_options'] = $this->request->post['pdf_catalog_max_per_options'];
+		} else {
+			$this->data['pdf_catalog_max_per_options'] = $this->config->get('pdf_catalog_max_per_options');
+		}	
 					
 		
 		$this->data['modules'] = array();
@@ -294,6 +306,10 @@ $this->db->query("
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_display_subcategories', '1', '0'
 	),(
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_sort_products', 'pd.name', '0'
+	),(
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_max_options', '1', '0'
+	),(
+	NULL , '0', 'pdf_catalog', 'pdf_catalog_max_per_options', '1', '0'
 	),(
 	NULL , '0', 'pdf_catalog', 'pdf_catalog_display_description', '0', '0'
 	);

@@ -225,35 +225,28 @@ class ControllerProductPdfcatalog extends Controller {
         }
     }
 
+    //@TODO: fix native template
     public function native_template($pdf, $pdf_data) {
         $margins = array(1, 1, 1, 1);
         $padding = array(1, 1, 1, 1);
         $bgcolor = array(255, 255, 127);
         $products = $pdf_data;
-        $pdf = $this->simpletable($pdf, $products, $margins, $padding, $bgcolor);
-        return $pdf;
-    }
+        $pdf->setCellPaddings($padding[0], $padding[1], $padding[2], $padding[3]);
+        $pdf->setCellMargins($margins[0], $margins[1], $margins[2], $margins[3]);
+        $pdf->SetFillColor($bgcolor[0], $bgcolor[1], $bgcolor[2]);
 
-    public function simpletable($pdf = null, $data = null, $margins, $padding, $bgcolor) {
-             $pdf->setCellPaddings($padding[0], $padding[1], $padding[2],$padding[3]);
-             $pdf->setCellMargins($margins[0], $margins[1], $margins[2],$margins[3]);
-             $pdf->SetFillColor($bgcolor[0], $bgcolor[1], $bgcolor[2]);
-             
 // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0)
- 
 // set some text for example
         $txt = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
         $pdf->MultiCell(100, 5, '[price] ' . $txt, 1, 'L', 1, 1, '', '', true);
 
 //loop through products and build pdf
 //        foreach($data as $prod){
-
 //        $pdf->MultiCell(100, 5, '[price] ' .$prod[price], 1, 'L', 1, 1, '', '', true);
 //        $pdf->Ln(4);
-        //   or
+//   or
 //        $pdf->MultiRow('Row '.($i), $prod[price]."\n");
 //        }
-
         return $pdf;
     }
 
@@ -337,26 +330,57 @@ class ControllerProductPdfcatalog extends Controller {
                         } else {
                             $tmp_product = str_replace("{::product_description}", '', $tmp_product);
                         }
+                        
+                        $max_options=(int)$this->config->get('pdf_catalog_max_options');
+                        $max_per_options=(int)$this->config->get('pdf_catalog_max_per_options');
                          
-                        if(isset($product['options'])){
-                        $tmp_product = str_replace("{::txt_product_options}", $this->language->get('text_product_options'), $tmp_product);
+                        if(isset($product['options']) && is_array($product['options']) && $max_options > 0){
+                        $poc=count($product['options']);
+                      //  $tmp_product = str_replace("{::txt_product_options}", $this->language->get('text_product_options'), $tmp_product);
                         $product_options='<ul>';
-                        foreach($product['options'] as $option){ 
+                        
+                        if($max_options < $poc ){
+                      $optget=$max_options;
+                        }else{
+                            $optget=$poc;
+                        }
+
+                       for($k=0; $k < $optget; $k++){
+                    
                              $product_options.='<li></li>';
-                             $product_options.='<li>'.$option['name'].'</li>';
-                            if(is_array($option['option_value'])){
-                           foreach($option['option_value'] as $val){
+                              if(isset($product['options'][$k]['name'])){
+                             $product_options.='<li>'.$product['options'][$k]['name'].'</li>';
+                              }
+
+
+                            if(isset($product['options'][$k]['option_value']) && is_array($product['options'][$k]['option_value']) && $max_per_options > 0 ){
+                            
+                           $peroc=count($product['options'][$k]['option_value']); 
+                           
+                           if($max_options < $poc ){            
+                            $perget=$max_per_options;
+                             }else{
+                            $optget=$peroc;
+                             }
+                        
+                           for($i=0; $i < $peroc; $i++){
                                
-                           $product_options.='<li>'.$val['name'].'    '.$val['price_prefix'].'     $'.$val['price'].'</li>';
+                           $product_options.='<li>'.$product['options'][$k]['option_value'][$i]['name'].'    '.$product['options'][$k]['option_value'][$i]['price_prefix'].'     $'.$product['options'][$k]['option_value'][$i]['price'].'</li>';
                            }
                            }
                            
                         }
                         $product_options.='</ul>';
-                          if (count($product['options'])>=1)  {
+                        
+                          if (count($product['options'])>0)  {
 
-                            $tmp_product = str_replace("{::product_options}", $product_options, $tmp_product);
+                           $tmp_product = str_replace("{::product_options}", $product_options, $tmp_product);
+                            $tmp_product = str_replace("{::txt_product_options}", $this->language->get('text_product_options'), $tmp_product);
+                        }else {
+                            $tmp_product = str_replace("{::product_options}", '', $tmp_product);
+                            $tmp_product = str_replace("{::txt_product_options}", '', $tmp_product);
                         }
+                        
                         }else {
                             $tmp_product = str_replace("{::product_options}", '', $tmp_product);
                             $tmp_product = str_replace("{::txt_product_options}", '', $tmp_product);

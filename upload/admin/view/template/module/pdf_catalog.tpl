@@ -187,6 +187,13 @@
               <td><input type="text" name="pdf_catalog_max_products" value="<?php echo $pdf_catalog_max_products;?>"/></td>
 	  </tr>
 	      <tr>
+          <td><?php echo $entry_pdf_max_options; ?> </td>
+              <td><input type="text" name="pdf_catalog_max_options" value="<?php echo $pdf_catalog_max_options;?>"/></td>
+	  </tr>
+          <td><?php echo $entry_pdf_max_per_options; ?> </td>
+              <td><input type="text" name="pdf_catalog_max_per_options" value="<?php echo $pdf_catalog_max_per_options;?>"/></td>
+	  </tr>
+	      <tr>
           <td><?php echo $entry_pdf_author; ?> </td>
               <td><input type="text" name="pdf_catalog_author" value="<?php echo $pdf_catalog_author;?>"/></td>
 	  </tr>
