@@ -67,10 +67,12 @@ class ControllerProductPdfcatalog extends Controller {
                     if (!empty($products)) {
                         foreach ($products as $key2 => $product) {
                             $products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
+                            if( 0<=(int)$this->config->get('pdf_catalog_max_options')){
                             $options = $this->model_catalog_product->getProductOptions($products[$key2]['product_id']);
-                        $attributes = $this->model_catalog_product->getProductAttributes($products[$key2]['product_id']);
-                        $discounts = $this->model_catalog_product->getProductDiscounts($products[$key2]['product_id']);
-                        $specials = $this->model_catalog_product->getProductSpecials($products[$key2]['product_id']);
+                            }
+//                        $attributes = $this->model_catalog_product->getProductAttributes($products[$key2]['product_id']);
+//                        $discounts = $this->model_catalog_product->getProductDiscounts($products[$key2]['product_id']);
+//                        $specials = $this->model_catalog_product->getProductSpecials($products[$key2]['product_id']);
                             $products[$key2]['options'] = $options;
                             if ($this->config->get('pdf_catalog_display_description') == "1")
                                 $products[$key2]['description'] = $product['description'];
