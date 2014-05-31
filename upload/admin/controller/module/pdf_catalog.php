@@ -105,7 +105,6 @@ class ControllerModulePdfcatalog extends Controller {
    		);
 		
 		$this->data['action'] = $this->url->link('module/pdf_catalog', 'token=' . $this->session->data['token'], 'SSL');
-		
 		$this->data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
 		$this->data['modules'] = array();
 	
@@ -331,4 +330,4 @@ $this->db->query("
 		}	
 	}
 }
-?>
+
