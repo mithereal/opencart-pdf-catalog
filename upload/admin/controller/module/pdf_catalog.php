@@ -59,6 +59,8 @@ class ControllerModulePdfcatalog extends Controller {
 		$this->data['entry_pdf_catalog_template_type'] = $this->language->get('entry_pdf_catalog_template_type');
 		$this->data['entry_pdf_catalog_max_options'] = $this->language->get('entry_pdf_catalog_max_options');
 		$this->data['entry_pdf_catalog_max_per_options'] = $this->language->get('entry_pdf_catalog_max_per_options');
+		$this->data['entry_pdf_max_options'] = $this->language->get('entry_pdf_max_options');
+		$this->data['entry_pdf_max_per_options'] = $this->language->get('entry_pdf_max_per_options');
 		
 		
 		
