@@ -7,8 +7,7 @@ class ControllerProductPdfcatalog extends Controller {
         $this->load->model('catalog/pdf_catalog');
         $this->load->model('catalog/product');
         $this->load->language('module/pdf_catalog');
-	$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/pdf_catalog.css');
-
+		$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/pdf_catalog.css');
 
         $this->data['entry_position'] = $this->language->get('entry_position');
         $this->data['text_description'] = $this->language->get('text_description');
@@ -30,106 +29,45 @@ class ControllerProductPdfcatalog extends Controller {
             $data['filter_quantity'] = 1;
         }
 
-        if (!isset($this->request->get['category_id']) || $this->request->get['category_id'] == "0") {
-            $categories = $this->model_catalog_pdf_catalog->getCategories(0);
+        if (isset($this->request->get['category_id'])) {
+			$parentCategory = $this->request->get['category_id'];
+		} else {
+			$parentCategory = 0;
+		}
+		$categories = $this->model_catalog_pdf_catalog->getCategories($parentCategory);
+		foreach ($categories as $key => $category) {
+			$products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
+			if (!empty($products)) {
+				foreach ($products as $key2 => $product) {
+					$products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
+					$options = $this->model_catalog_product->getProductOptions($products[$key2]['product_id']);
+					$attributes = $this->model_catalog_product->getProductAttributes($products[$key2]['product_id']);
+					$discounts = $this->model_catalog_product->getProductDiscounts($products[$key2]['product_id']);
+					$specials = $this->model_catalog_product->getProductSpecials($products[$key2]['product_id']);
+					$products[$key2]['options'] = $options;
+					if ($this->config->get('pdf_catalog_description') && strlen(trim($this->config->get('pdf_catalog_description'))) > 1) {
+						$products[$key2]['description'] = $product['description'];
+					}
+				}
+			}
+			$categories[$key]['products'] = $products;
+		}
 
-            foreach ($categories as $key => $category) {
-                $products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
-                if (!empty($products)) {
-                    foreach ($products as $key2 => $product) {
-                        $products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
-                        $options = $this->model_catalog_product->getProductOptions($products[$key2]['product_id']);
-                        $attributes = $this->model_catalog_product->getProductAttributes($products[$key2]['product_id']);
-                        $discounts = $this->model_catalog_product->getProductDiscounts($products[$key2]['product_id']);
-                        $specials = $this->model_catalog_product->getProductSpecials($products[$key2]['product_id']);
-                        $products[$key2]['options'] = $options;
-                        if ($this->config->get('pdf_catalog_description') && strlen(trim($this->config->get('pdf_catalog_description'))) > 1) {
-                            $products[$key2]['description'] = $product['description'];
-                        }
-                    }
-                }
-                $categories[$key]['products'] = $products;
-            }
+		$totalproducts = 0;
+		foreach ($categories as $k => $categori) {
+			$totalproducts = $totalproducts + count($categori['products']);
+			$productsizes[$k] = count($categori['products']);
+		}
 
-            $this->createPdf($categories);
-        } elseif ($this->request->get['category_id'] != "0") {
-            $category = $this->model_catalog_pdf_catalog->getCategory($this->request->get['category_id']);
-            $categories = $this->model_catalog_pdf_catalog->getCategories($this->request->get['category_id']);
+		while ($totalproducts > $limit) {
+			$categories = $this->removeProduct($categories, $productsizes);
+			$totalproducts--;
+			foreach ($categories as $k => $categori) {
+				$productsizes[$k] = count($categori['products']);
+			}
+		}
 
-
-            if (count($categories) > 0) {
-
-
-                if (isset($category['category_id'])) {
-                    $products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
-                   
-
-                    if (!empty($products)) {
-                        foreach ($products as $key2 => $product) {
-                            $products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
-                            if( 0<=(int)$this->config->get('pdf_catalog_max_options')){
-                            $options = $this->model_catalog_product->getProductOptions($products[$key2]['product_id']);
-                            }
-//                        $attributes = $this->model_catalog_product->getProductAttributes($products[$key2]['product_id']);
-//                        $discounts = $this->model_catalog_product->getProductDiscounts($products[$key2]['product_id']);
-//                        $specials = $this->model_catalog_product->getProductSpecials($products[$key2]['product_id']);
-                            $products[$key2]['options'] = $options;
-                            if ($this->config->get('pdf_catalog_display_description') == "1")
-                                $products[$key2]['description'] = $product['description'];
-                        }
-                    }
-                    $category['products'] = $products;
-                    $main_category = array($category);
-                }
-
-                foreach ($categories as $key => $category) {
-                    $products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
-                    if (!empty($products)) {
-                        foreach ($products as $key2 => $product) {
-                            $products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
-                            if ($this->config->get('pdf_catalog_description') && strlen(trim($this->config->get('pdf_catalog_description'))) > 1) {
-                                $products[$key2]['description'] = $product['description'];
-                            }
-                        }
-                    }
-                    $categories[$key]['products'] = $products;
-                }
-
-                $categories = array_merge($main_category, $categories);
-
-
-
-                $totalproducts = 0;
-                foreach ($categories as $k => $categori) {
-                    $totalproducts = $totalproducts + count($categori['products']);
-                    $productsizes[$k] = count($categori['products']);
-                }
-
-                while ($totalproducts > $limit) {
-                    $categories = $this->removeProduct($categories, $productsizes);
-                    $totalproducts--;
-                    foreach ($categories as $k => $categori) {
-                        $productsizes[$k] = count($categori['products']);
-                    }
-                }
-
-                $this->createPdf($categories);
-            } else {
-                if (isset($category['category_id'])) {
-                    $products = $this->model_catalog_pdf_catalog->getProductsByCategoryId($category['category_id'], $data);
-
-                    if (!empty($products)) {
-                        foreach ($products as $key2 => $product) {
-                            $products[$key2]['price'] = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
-                            if ($this->config->get('pdf_catalog_display_description') == "1")
-                                $products[$key2]['description'] = $product['description'];
-                        }
-                    }
-                    $category['products'] = $products;
-                }
-                $this->createPdf(array(0 => $category));
-            }
-        }
+		$this->createPdf($categories);
     }
 
     public function removeProduct($categories, $sizes) {
@@ -183,7 +121,7 @@ class ControllerProductPdfcatalog extends Controller {
                 $pdf_logo = "pdf_catalog_default_logo.png";
             }
             $pdf_title = $this->config->get('config_name');
-            $pdf_string = $this->config->get('config_url');
+			$pdf_string = $this->config->get('config_url');
             $pdf->SetHeaderData($pdf_logo, PDF_HEADER_LOGO_WIDTH, $pdf_title, $pdf_string);
 
             // set header and footer fonts
@@ -253,7 +191,7 @@ class ControllerProductPdfcatalog extends Controller {
     }
 
     public function html_template($pdf, $pdf_data, $image_height, $image_width, $item_per_page) {
-
+		
         $html_template_css = PDF_CATALOG_TEMPLATE_CSS;
         $html_template_category = PDF_CATALOG_TEMPLATE_CATEGORY;
         $html_template_product = PDF_CATALOG_TEMPLATE_PRODUCT;
@@ -301,11 +239,6 @@ class ControllerProductPdfcatalog extends Controller {
                         } else {
                             $image = 'no_image.jpg';
                         }
-                        $description = html_entity_decode($product['description']);
-                 
-                        $description = $this->fixfontsize($description);
-                        $description = trim($description);
-                        $description = $this->truncate($description, $this->config->get('pdf_catalog_description_chars'), $ending = '...', $exact = false, $considerHtml = true);
 
                         $thumb = $this->model_tool_image->resize($image, $image_width, $image_height);
                         $thumb = str_replace(HTTP_SERVER, "", $thumb);
@@ -320,69 +253,53 @@ class ControllerProductPdfcatalog extends Controller {
                         $tmp_product = str_replace("{::txt_product_discounts}", $this->language->get('txt_product_discounts'), $tmp_product);
                         $tmp_product = str_replace("{::txt_product_specials}", $this->language->get('txt_product_specials'), $tmp_product);
 
+						$description = "";
                         if ($this->config->get('pdf_catalog_display_description') == "1") {
+							$description = html_entity_decode($product['description']);                 
+							$description = $this->fixfontsize($description);
+							$description = trim($description);
+							if (0>(int)$this->config->get('pdf_catalog_description_chars')) {
+								$description = $this->truncate($description, $this->config->get('pdf_catalog_description_chars'), $ending = '...', $exact = false, $considerHtml = true);
+							}
+						}
+						if (strlen($description) > 0){					
                             $tmp_product = str_replace("{::txt_product_description}", $this->language->get('text_description'), $tmp_product);
-                        } else {
-                            $tmp_product = str_replace("{::txt_product_description}", '', $tmp_product);
-                        }
-
-                        if ($this->config->get('pdf_catalog_display_description') == "1") {
-
                             $tmp_product = str_replace("{::product_description}", $description, $tmp_product);
                         } else {
+                            $tmp_product = str_replace("{::txt_product_description}", '', $tmp_product);
                             $tmp_product = str_replace("{::product_description}", '', $tmp_product);
                         }
                         
                         $max_options=(int)$this->config->get('pdf_catalog_max_options');
                         $max_per_options=(int)$this->config->get('pdf_catalog_max_per_options');
                          
-                        if(isset($product['options']) && is_array($product['options']) && $max_options > 0){
-                        $poc=count($product['options']);
-                      //  $tmp_product = str_replace("{::txt_product_options}", $this->language->get('text_product_options'), $tmp_product);
-                        $product_options='<ul>';
-                        
-                        if($max_options < $poc ){
-                      $optget=$max_options;
-                        }else{
-                            $optget=$poc;
-                        }
+                        if(isset($product['options']) && is_array($product['options']) && count($product['options'])>0 && $max_options > 0){
+							$product_options='<ul>';
+							$poc=count($product['options']);
+							$poc=min($max_options, $poc);
 
-                       for($k=0; $k < $optget; $k++){
-                    
-                             $product_options.='<li></li>';
-                              if(isset($product['options'][$k]['name'])){
-                             $product_options.='<li>'.$product['options'][$k]['name'].'</li>';
-                              }
-
-
-                            if(isset($product['options'][$k]['option_value']) && is_array($product['options'][$k]['option_value']) && $max_per_options > 0 ){
-                            
-                           $peroc=count($product['options'][$k]['option_value']); 
+							for($k=0; $k < $poc; $k++){
+								$product_options.='<li></li>';
+								if(isset($product['options'][$k]['name'])){
+									$product_options.='<li><em>'.$product['options'][$k]['name'].'</em>:</li>';
+								}
+								if(isset($product['options'][$k]['option_value']) && is_array($product['options'][$k]['option_value']) && $max_per_options > 0 ){
+									$peroc=count($product['options'][$k]['option_value']);
+									$peroc=min($max_per_options, $peroc); 									
+									for($i=0; $i < $peroc; $i++){                              
+										$product_options.='<li>'.$product['options'][$k]['option_value'][$i]['name'];
+										if ($product['options'][$k]['option_value'][$i]['price'] != "0") {
+											$product_options.='    '.$product['options'][$k]['option_value'][$i]['price_prefix'].' '
+											.$this->currency->format($this->tax->calculate($product['options'][$k]['option_value'][$i]['price'], $product['tax_class_id'], $this->config->get('config_tax')));
+										}
+										$product_options.='</li>';
+									}
+								}
                            
-                           if($max_options < $poc ){            
-                            $perget=$max_per_options;
-                             }else{
-                            $optget=$peroc;
-                             }
-                        
-                           for($i=0; $i < $peroc; $i++){
-                               
-                           $product_options.='<li>'.$product['options'][$k]['option_value'][$i]['name'].'    '.$product['options'][$k]['option_value'][$i]['price_prefix'].'     $'.$product['options'][$k]['option_value'][$i]['price'].'</li>';
-                           }
-                           }
-                           
-                        }
-                        $product_options.='</ul>';
-                        
-                          if (count($product['options'])>0)  {
-
-                           $tmp_product = str_replace("{::product_options}", $product_options, $tmp_product);
-                            $tmp_product = str_replace("{::txt_product_options}", $this->language->get('text_product_options'), $tmp_product);
-                        }else {
-                            $tmp_product = str_replace("{::product_options}", '', $tmp_product);
-                            $tmp_product = str_replace("{::txt_product_options}", '', $tmp_product);
-                        }
-                        
+							}
+							$product_options.='</ul>';
+							$tmp_product = str_replace("{::product_options}", $product_options, $tmp_product);
+							$tmp_product = str_replace("{::txt_product_options}", $this->language->get('text_product_options'), $tmp_product);
                         }else {
                             $tmp_product = str_replace("{::product_options}", '', $tmp_product);
                             $tmp_product = str_replace("{::txt_product_options}", '', $tmp_product);
@@ -405,16 +322,28 @@ class ControllerProductPdfcatalog extends Controller {
         }
 
         $html .= $pdf_content;
-
+		$html = $this->remove_empty_tags_recursive($html);
         $pdf->writeHTML($html, true, false, true, false, '');
         return $pdf;
     }
+	
+	function remove_empty_tags_recursive ($str, $repto = NULL)
+	{
+		if (!is_string ($str)|| trim ($str) == '')
+				return $str;
+
+		$start_len = 0;
+		do {
+			$start_len = strlen($str);
+			$str = preg_replace('/<(.*?)\s*>(\s|&nbsp;)*<\/\1\s*>/ims','',$str);
+		} while (strlen($str) != $start_len);
+		return $str;
+	}
 
     function fixfontsize($text) {
-        $pattern='/size=".*"/';
-        $replacement='';
-        
-        $text= preg_replace ($pattern , $replacement , $text );
+        $text= preg_replace ('/size=".*?"/' , '' , $text );
+        $text= preg_replace ('/font-size:.*?;/' , '' , $text );
+		$text= preg_replace ('/style="\s*"/' , '' , $text );
         return $text;
     }
     

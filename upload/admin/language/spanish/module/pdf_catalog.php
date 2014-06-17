@@ -14,6 +14,9 @@ $_['text_column_right']   = 'Columna derecha';
 $_['text_yes'] = 'Si';
 $_['text_no'] = 'No';
 $_['text_native'] = 'Nativo';
+$_['text_product_popular'] = 'Productos más vendidos';
+$_['text_product_name'] = 'Nombre de producto';
+
 
 // Entry
 $_['entry_layout']        = 'Formato:';
@@ -36,8 +39,11 @@ $_['entry_pdf_catalog_item_per_page'] = 'Limite de productos por p&aacute;gina:'
 $_['entry_pdf_catalog_description_chars'] = 'Limite de caracteres en descripci&oacute;n:';
 $_['entry_pdf_catalog_template_type'] = 'Tipo de plantilla:';
 $_['entry_display_out_of_stock'] = 'Mostrar productos sin stock:';
-$_['entry_display_disabled'] = 'Mostrar products deshabilitados:';
+$_['entry_display_disabled'] = 'Mostrar productos deshabilitados:';
 $_['entry_display_subcategories'] = 'Mostrar subcategor&iacute;as:';
+$_['entry_sort_products'] = 'Ordenar productos por:';
+$_['entry_pdf_max_options'] = 'Cantidad m&aacute;xima de opciones a mostrar:';
+$_['entry_pdf_max_per_options'] = 'Cantidad m&aacute;xima de valores de opci&oacute;n a mostrar:';
 
 // Error
 $_['error_permission'] = '¡Error: No tienes permisos para cambiar la configuraci&oacute;n!';
