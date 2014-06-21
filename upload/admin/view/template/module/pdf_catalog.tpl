@@ -100,16 +100,19 @@
             </select></td>
         </tr>
    -->
-	   
+	   <?php
+	   if($tcpdf == false){
+		   ?>
 		<tr id="tcpdf">
           <td class="left"><a onclick="install_Tcpdf();" class="button"><?php echo $button_install_tcpdf; ?></td>
         </tr>
-
+		
 	   <div id="result">
           
       </div>
-  
-  
+  <?php
+	}
+	?>
 	<tr>
           <td> <h2>Frontend</h2></td>
         </tr>
