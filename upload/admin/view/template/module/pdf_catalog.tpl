@@ -100,6 +100,15 @@
             </select></td>
         </tr>
    -->
+	   
+		<tr id="tcpdf">
+          <td class="left"><a onclick="install_Tcpdf();" class="button"><?php echo $button_install_tcpdf; ?></td>
+        </tr>
+
+	   <div id="result">
+          
+      </div>
+  
   
 	<tr>
           <td> <h2>Frontend</h2></td>
@@ -264,6 +273,16 @@ CKEDITOR.replace('pdf_catalog_description', {
 <script type="text/javascript"><!--
 var module_row = <?php echo $module_row; ?>;
 
+function install_Tcpdf() {	
+$( '#result' ).html( "Installing Tcpdf Please Wait..." );
+$( '#tcpdf' ).hide();
+$.get( "index.php?route=module/pdf_catalog/fetch_api&token=<?php echo $token; ?>", function( data ) {
+$( '#result' ).html( data );
+$( '#result' ).slideUp(4500);
+
+});
+}
+
 function addModule() {	
 	html  = '<tbody id="module-row' + module_row + '">';
 	html += '  <tr>';
@@ -287,7 +306,7 @@ function addModule() {
 	html += '  </tr>';
 	html += '</tbody>';
 	
-	$('#module tfoot').before(html);
+	$('#module form').before(html);
 	
 	module_row++;
 }

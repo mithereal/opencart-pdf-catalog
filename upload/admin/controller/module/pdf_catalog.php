@@ -19,7 +19,7 @@ $this->load->language('module/pdf_catalog');
 
 $this->document->setTitle = $this->language->get('heading_title');
 
-$this->load->helper('tcpdf/tcpdf');
+//$this->load->helper('tcpdf/tcpdf');
 
 $this->load->model('setting/setting');
 $this->load->model('design/layout');
@@ -77,6 +77,7 @@ $this->data['entry_display_disabled'] = $this->language->get('entry_display_disa
 $this->data['entry_display_subcategories'] = $this->language->get('entry_display_subcategories');
 $this->data['entry_sort_products'] = $this->language->get('entry_sort_products');
 
+$this->data['button_install_tcpdf'] = $this->language->get('button_install_tcpdf');
 $this->data['button_save'] = $this->language->get('button_save');
 $this->data['button_cancel'] = $this->language->get('button_cancel');
 $this->data['button_add_module'] = $this->language->get('button_add_module');
@@ -263,6 +264,7 @@ $this->data['modules'] = $this->config->get('pdf_catalog_module');
 }	
 $this->data['token'] = $this->session->data['token'];
 $this->data['layouts'] = $this->model_design_layout->getLayouts();
+$this->data['tcpdf'] = file_exists(DIR_SYSTEM.'helper/tcpdf/tcpdf.php');
 
 $this->template = 'module/pdf_catalog.tpl';
 $this->children = array(
@@ -339,7 +341,8 @@ $unzip_path = DIR_SYSTEM . 'helper/';
 
 if (!$fp = fopen($cache, 'w')) {
 echo "Error: <br>";
-echo "You may need to change permissions for the directory $cache <br>";
+echo "You may need to change permissions for the directory $cache";
+echo '<br>';
 return;
 }
 
@@ -357,17 +360,27 @@ $this->model_setting_setting->editSettingValue('config', 'config_error_log', $co
 
 if (!$fp = fopen($unzip_path.'test', 'w')) {
 echo "Error: <br>";
-echo "You may need to change permissions for the directory $unzip_path <br>";
+echo "You may need to change permissions for the directory $unzip_path";
+echo '<br>';
 }else{
 $this->unzip($cache, $unzip_path);
 fclose($fp);
 }
 unlink($unzip_path.'test');
-$this->rrmdir($unzip_path.'tcpdf');
-rename(DIR_SYSTEM . 'helper/tcpdf-6.0.086',DIR_SYSTEM . 'helper/tcpdf');
+//$this->rrmdir($unzip_path.'tcpdf');
+$renamed=rename(DIR_SYSTEM . 'helper/tcpdf-6.0.086',DIR_SYSTEM . 'helper/tcpdf');
+if(!$renamed == false)
+{
 copy(DIR_SYSTEM . 'cache/pdf_catalog_default_logo.png', DIR_SYSTEM . 'helper/tcpdf/examples/pdf_catalog_default_logo.png');
 //unlink($cache);
-echo '<br>Api Installed...';
+echo 'Api Installed...';
+echo '<br>';
+}else{
+echo '<br>';
+echo '<br>';
+echo "Error: Check if Tcpdf directory exists, if it does remove it (unless you need for specific purpose).";
+echo '<br>';
+}
 }
 
 public function rrmdir($dir) {
@@ -390,9 +403,11 @@ public function unzip($path,$unzip_path) {
      if ($res === TRUE) {
          $zip->extractTo($unzip_path);
          $zip->close();
-         echo $path.' successfully unzipped at location:'.$unzip_path;
+         echo "$path successfully unzipped at location:.$unzip_path";
+         echo '<br>';
      } else {
-         echo $path.' failed to unzip at location:'.$unzip_path;
+         echo "Error: $path failed to unzip at location:$unzip_path";
+         echo '<br>';
      }
 
 }

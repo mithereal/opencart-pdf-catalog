@@ -20,6 +20,7 @@ $_['text_product_name'] = 'Products Name';
 
 // Entry
 $_['entry_layout']        = 'Layout:';
+$_['button_install_tcpdf']        = 'Install Tcpdf';
 $_['entry_position']   = 'Position:';
 $_['entry_status']     = 'Status:';
 $_['entry_display_toc'] = 'Display Toc:';
