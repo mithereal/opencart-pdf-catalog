@@ -281,7 +281,7 @@ $( '#result' ).html( "Installing Tcpdf Please Wait..." );
 $( '#tcpdf' ).hide();
 $.get( "index.php?route=module/pdf_catalog/fetch_api&token=<?php echo $token; ?>", function( data ) {
 $( '#result' ).html( data );
-$( '#result' ).slideUp(4500);
+$( '#result' ).slideUp(7500);
 
 });
 }
