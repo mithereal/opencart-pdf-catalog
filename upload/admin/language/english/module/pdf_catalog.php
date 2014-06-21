@@ -47,4 +47,5 @@ $_['entry_pdf_max_per_options'] = 'Max options per option type:';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify module PDF catalog!';
+$_['tcpdf_url'] = 'https://github.com/tcpdf-clone/tcpdf/archive/6.0.086.zip';
 ?>
