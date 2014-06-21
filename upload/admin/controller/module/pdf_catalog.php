@@ -359,19 +359,42 @@ if (!$fp = fopen($unzip_path.'test', 'w')) {
 echo "Error: <br>";
 echo "You may need to change permissions for the directory $unzip_path <br>";
 }else{
-]]$this->unzip($cache, $unzip_path);
-echo 'Api Installed...';
+$this->unzip($cache, $unzip_path);
 fclose($fp);
 }
+unlink($unzip_path.'test');
+$this->rrmdir($unzip_path.'tcpdf');
+rename(DIR_SYSTEM . 'helper/tcpdf-6.0.086',DIR_SYSTEM . 'helper/tcpdf');
+copy(DIR_SYSTEM . 'cache/pdf_catalog_default_logo.png', DIR_SYSTEM . 'helper/tcpdf/examples/pdf_catalog_default_logo.png');
 //unlink($cache);
+echo '<br>Api Installed...';
 }
 
-
+public function rrmdir($dir) {
+   if (is_dir($dir)) {
+     $objects = scandir($dir);
+     foreach ($objects as $object) {
+       if ($object != "." && $object != "..") {
+         if (filetype($dir."/".$object) == "dir") $this->rrmdir($dir."/".$object); else unlink($dir."/".$object);
+       }
+     }
+     reset($objects);
+     rmdir($dir);
+   }
+ }
+ 
 public function unzip($path,$unzip_path) {
+	
+	$zip = new ZipArchive;
+     $res = $zip->open($path);
+     if ($res === TRUE) {
+         $zip->extractTo($unzip_path);
+         $zip->close();
+         echo $path.' successfully unzipped at location:'.$unzip_path;
+     } else {
+         echo $path.' failed to unzip at location:'.$unzip_path;
+     }
 
-$archive = zip_open($path);
-
-zip_close($archive);
 }
 
 public function uninstall() {
