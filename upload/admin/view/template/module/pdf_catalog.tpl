@@ -309,7 +309,7 @@ function addModule() {
 	html += '  </tr>';
 	html += '</tbody>';
 	
-	$('#module form').before(html);
+	$('#module tfoot').before(html);
 	
 	module_row++;
 }
