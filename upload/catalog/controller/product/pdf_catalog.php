@@ -141,6 +141,11 @@ class ControllerProductPdfcatalog extends Controller {
 
             // set font
             $pdf->SetFont('helvetica', '', 10);
+            
+            if($this->config->get('pdf_catalog_text_orientation') == 'rtl')
+            {
+            $pdf->setRTL($enable, $resetx = true);	
+			}
 
             // add a page
             $pdf->AddPage();

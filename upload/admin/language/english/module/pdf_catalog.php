@@ -16,6 +16,8 @@ $_['text_no'] = 'No';
 $_['text_native'] = 'Native';
 $_['text_product_popular'] = 'Most Sold Products';
 $_['text_product_name'] = 'Products Name';
+$_['text_rtl'] = 'Right to Left';
+$_['text_ltr'] = 'Left to Right';
 
 
 // Entry
@@ -45,6 +47,7 @@ $_['entry_display_subcategories'] = 'Display Subcategories:';
 $_['entry_sort_products'] = 'Sort Products By:';
 $_['entry_pdf_max_options'] = 'Max option types to list:';
 $_['entry_pdf_max_per_options'] = 'Max options per option type:';
+$_['entry_pdf_catalog_text_orientation'] = 'Orientation:';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify module PDF catalog!';

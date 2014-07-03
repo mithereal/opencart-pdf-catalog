@@ -64,6 +64,9 @@ $this->data['entry_pdf_catalog_max_options'] = $this->language->get('entry_pdf_c
 $this->data['entry_pdf_catalog_max_per_options'] = $this->language->get('entry_pdf_catalog_max_per_options');
 $this->data['entry_pdf_max_options'] = $this->language->get('entry_pdf_max_options');
 $this->data['entry_pdf_max_per_options'] = $this->language->get('entry_pdf_max_per_options');
+$this->data['pdf_catalog_text_orientation'] = $this->language->get('pdf_catalog_text_orientation');
+$this->data['text_rtl'] = $this->language->get('text_rtl');
+$this->data['text_ltr'] = $this->language->get('text_ltr');
 
 
 
@@ -256,6 +259,11 @@ $this->data['pdf_catalog_max_per_options'] = $this->request->post['pdf_catalog_m
 $this->data['pdf_catalog_max_per_options'] = $this->config->get('pdf_catalog_max_per_options');
 }	
 
+if (isset($this->request->post['pdf_catalog_text_orientation'])) {
+$this->data['pdf_catalog_text_orientation'] = $this->request->post['pdf_catalog_text_orientation'];
+} else {
+$this->data['pdf_catalog_text_orientation'] = $this->config->get('pdf_catalog_text_orientation');
+}	
 $this->data['modules'] = array();
 if (isset($this->request->post['pdf_catalog_module'])) {
 $this->data['modules'] = $this->request->post['pdf_catalog_module'];
@@ -315,6 +323,8 @@ NULL , '0', 'pdf_catalog', 'pdf_catalog_sort_products', 'pd.name', '0'
 NULL , '0', 'pdf_catalog', 'pdf_catalog_max_options', '1', '0'
 ),(
 NULL , '0', 'pdf_catalog', 'pdf_catalog_max_per_options', '1', '0'
+),(
+NULL , '0', 'pdf_catalog', 'pdf_catalog_text_orientation', 'ltr', '0'
 ),(
 NULL , '0', 'pdf_catalog', 'pdf_catalog_display_description', '0', '0'
 );

@@ -217,6 +217,23 @@
           <td><?php echo $entry_pdf_subject; ?> </td>
               <td><input type="text" name="pdf_catalog_subject" value="<?php echo $pdf_catalog_subject;?>"/></td>
 	  </tr>
+	
+	    
+		<tr>
+          <td><?php echo $entry_pdf_catalog_text_orientation; ?></td>
+          <td><select name="pdf_catalog_text_orientation">
+              <?php if ($pdf_catalog_text_orientation == 'rtl') { ?>
+              <option value="rtl" selected="selected"><?php echo $text_rtl; ?></option>
+              <option value="ltr"><?php echo $text_ltr; ?></option>
+              <?php } else { ?>
+              <option value="rtl"><?php echo $text_rtl; ?></option>
+              <option value="ltr" selected="selected"><?php echo $text_ltr; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
+        
+
+	   -
 	      <tr>
           <td><?php echo $entry_pdf_keywords; ?> </td>
              <td> <input type="text" name="pdf_catalog_keywords" value="<?php echo $pdf_catalog_keywords;?>"/></td>
