@@ -48,6 +48,9 @@ $_['entry_sort_products'] = 'Sort Products By:';
 $_['entry_pdf_max_options'] = 'Max option types to list:';
 $_['entry_pdf_max_per_options'] = 'Max options per option type:';
 $_['entry_pdf_catalog_text_orientation'] = 'Orientation:';
+$_['entry_entry_manufacturer'] = 'Manufacturer:';
+$_['entry_display_manufacturer_logo'] = 'Display Manufacturer Logo:';
+$_['entry_display_manufacturer_name'] = 'Display Manufacturer Name:';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify module PDF catalog!';

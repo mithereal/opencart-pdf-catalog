@@ -6,6 +6,7 @@ class ControllerProductPdfcatalog extends Controller {
         $this->load->config('pdf_catalog');
         $this->load->model('catalog/pdf_catalog');
         $this->load->model('catalog/product');
+        $this->load->model('catalog/manufacturer');
         $this->load->language('module/pdf_catalog');
 		$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/pdf_catalog.css');
 
@@ -45,9 +46,21 @@ class ControllerProductPdfcatalog extends Controller {
 					$discounts = $this->model_catalog_product->getProductDiscounts($products[$key2]['product_id']);
 					$specials = $this->model_catalog_product->getProductSpecials($products[$key2]['product_id']);
 					$products[$key2]['options'] = $options;
+                    if($this->config->get('pdf_catalog_display_manufacturer_logo') == 1 || $this->config->get('pdf_catalog_display_manufacturer_name') == 1){
+                        
+                    $manufacturer = $this->model_catalog_manufacturer->getManufacturer($products[$key2]['manufacturer_id']);
+                    if(isset($manufacturer['image']) && isset($manufacturer['name'])){
+                        //var_dump($manufacturer);
+                    $products[$key2]['manufacturer_logo_url'] = $manufacturer['image'];
+                    $products[$key2]['manufacturer_name'] = $manufacturer['name'];
+                    }
+                    
+                    }
+                                        
 					if ($this->config->get('pdf_catalog_description') && strlen(trim($this->config->get('pdf_catalog_description'))) > 1) {
 						$products[$key2]['description'] = $product['description'];
 					}
+
 				}
 			}
 			$categories[$key]['products'] = $products;
@@ -145,7 +158,7 @@ class ControllerProductPdfcatalog extends Controller {
             if($this->config->get('pdf_catalog_text_orientation') == 'rtl')
             {
             $pdf->setRTL($enable, $resetx = true);	
-			}
+            }
 
             // add a page
             $pdf->AddPage();
@@ -250,7 +263,7 @@ class ControllerProductPdfcatalog extends Controller {
                         $tmp_product = str_replace("{::product_image}", $thumb, $html_template_product);
                         $tmp_product = str_replace("{::txt_product_name}", $this->language->get('text_category'), $tmp_product);
                         $tmp_product = str_replace("{::product_name}", $product['name'], $tmp_product);
-                        $tmp_product = str_replace("{::txt_prdocut_model}", $this->language->get('text_model'), $tmp_product);
+                        $tmp_product = str_replace("{::txt_product_model}", $this->language->get('text_model'), $tmp_product);
                         $tmp_product = str_replace("{::product_model}", $product['model'], $tmp_product);
                         $tmp_product = str_replace("{::txt_product_price}", $this->language->get('text_price'), $tmp_product);
                         
@@ -308,6 +321,28 @@ class ControllerProductPdfcatalog extends Controller {
                         }else {
                             $tmp_product = str_replace("{::product_options}", '', $tmp_product);
                             $tmp_product = str_replace("{::txt_product_options}", '', $tmp_product);
+                        }
+                        
+                        $tmp_product = str_replace("{::txt_manufacturer}}", '', $tmp_product);
+                       
+                        if ($this->config->get('pdf_catalog_display_manufacturer_logo') == 1 && isset($product['manufacturer_logo_url'])) {
+                        $mlogo = $this->model_tool_image->resize($product['manufacturer_logo_url'], $image_width, $image_height);
+                        $mlogo = str_replace(HTTP_SERVER, "", $mlogo);
+                        $tmp_product = str_replace("{::manufacturer_logo}", $mlogo, $tmp_product);
+                        
+ 
+                        }else{
+                            $tmp_product = str_replace("{::txt_manufacturer}}", '', $tmp_product);
+                             $tmp_product = str_replace("{::manufacturer_logo}", '', $tmp_product);
+                        }
+                        
+                        if ($this->config->get('pdf_catalog_display_manufacturer_name') == 1 && isset($product['manufacturer_name']) ) {
+                            $tmp_product = str_replace("{::txt_manufacturer}}", '', $tmp_product);
+                            $tmp_product = str_replace("{::txt_manufacturer_name}", $product['manufacturer_name'], $tmp_product);
+                            
+                        }else{
+                            $tmp_product = str_replace("{::txt_manufacturer}}", '', $tmp_product);
+                             $tmp_product = str_replace("{::txt_manufacturer_name}", '', $tmp_product);
                         }
                         
                         

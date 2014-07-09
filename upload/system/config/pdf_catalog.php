@@ -76,7 +76,8 @@
 			<td class="pdf_product_desc">
 				<ul class="pdf_product_ul">
 					<li class="pdf_product_name"><strong>{::txt_product_name}</strong> {::product_name}</li>
-					<li><strong>{::txt_prdocut_model}</strong> {::product_model}</li>
+					<li><strong>{::txt_manufacturer}</strong>{::txt_manufacturer_name} {::manufacturer_logo}</li>
+					<li><strong>{::txt_product_model}</strong> {::product_model}</li>
 					<li><strong>{::txt_product_price}</strong> {::product_price}</li>
 					<li><strong>{::txt_product_options}</strong> {::product_options}</li>
 					<li><strong>{::txt_product_description}</strong> {::product_description}</li>

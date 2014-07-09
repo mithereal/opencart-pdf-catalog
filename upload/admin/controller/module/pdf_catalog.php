@@ -19,7 +19,6 @@ $this->load->language('module/pdf_catalog');
 
 $this->document->setTitle = $this->language->get('heading_title');
 
-//$this->load->helper('tcpdf/tcpdf');
 
 $this->load->model('setting/setting');
 $this->load->model('design/layout');
@@ -29,7 +28,6 @@ $this->model_setting_setting->editSetting('pdf_catalog', $this->request->post);
 
 $this->session->data['success'] = $this->language->get('text_success');
 
-//$this->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
 }
 $this->data['heading_title'] = $this->language->get('heading_title');
 
@@ -64,7 +62,7 @@ $this->data['entry_pdf_catalog_max_options'] = $this->language->get('entry_pdf_c
 $this->data['entry_pdf_catalog_max_per_options'] = $this->language->get('entry_pdf_catalog_max_per_options');
 $this->data['entry_pdf_max_options'] = $this->language->get('entry_pdf_max_options');
 $this->data['entry_pdf_max_per_options'] = $this->language->get('entry_pdf_max_per_options');
-$this->data['pdf_catalog_text_orientation'] = $this->language->get('pdf_catalog_text_orientation');
+$this->data['entry_pdf_catalog_text_orientation'] = $this->language->get('entry_pdf_catalog_text_orientation');
 $this->data['text_rtl'] = $this->language->get('text_rtl');
 $this->data['text_ltr'] = $this->language->get('text_ltr');
 
@@ -79,6 +77,8 @@ $this->data['entry_display_out_of_stock'] = $this->language->get('entry_display_
 $this->data['entry_display_disabled'] = $this->language->get('entry_display_disabled');
 $this->data['entry_display_subcategories'] = $this->language->get('entry_display_subcategories');
 $this->data['entry_sort_products'] = $this->language->get('entry_sort_products');
+$this->data['entry_display_manufacturer_logo'] = $this->language->get('entry_display_manufacturer_logo');
+$this->data['entry_display_manufacturer_name'] = $this->language->get('entry_display_manufacturer_name');
 
 $this->data['button_install_tcpdf'] = $this->language->get('button_install_tcpdf');
 $this->data['button_save'] = $this->language->get('button_save');
@@ -257,6 +257,18 @@ if (isset($this->request->post['pdf_catalog_max_per_options'])) {
 $this->data['pdf_catalog_max_per_options'] = $this->request->post['pdf_catalog_max_per_options'];
 } else {
 $this->data['pdf_catalog_max_per_options'] = $this->config->get('pdf_catalog_max_per_options');
+}
+
+if (isset($this->request->post['pdf_catalog_display_manufacturer_name'])) {
+$this->data['pdf_catalog_display_manufacturer_name'] = $this->request->post['pdf_catalog_display_manufacturer_name'];
+} else {
+$this->data['pdf_catalog_display_manufacturer_name'] = $this->config->get('pdf_catalog_display_manufacturer_name');
+}	
+
+if (isset($this->request->post['pdf_catalog_display_manufacturer_logo'])) {
+$this->data['pdf_catalog_display_manufacturer_logo'] = $this->request->post['pdf_catalog_display_manufacturer_logo'];
+} else {
+$this->data['pdf_catalog_display_manufacturer_logo'] = $this->config->get('pdf_catalog_display_manufacturer_logo');
 }	
 
 if (isset($this->request->post['pdf_catalog_text_orientation'])) {
@@ -326,6 +338,10 @@ NULL , '0', 'pdf_catalog', 'pdf_catalog_max_per_options', '1', '0'
 ),(
 NULL , '0', 'pdf_catalog', 'pdf_catalog_text_orientation', 'ltr', '0'
 ),(
+NULL , '0', 'pdf_catalog', 'pdf_catalog_display_manufacturer_name', '0', '0'
+),(
+NULL , '0', 'pdf_catalog', 'pdf_catalog_display_manufacturer_logo', '0', '0'
+),(
 NULL , '0', 'pdf_catalog', 'pdf_catalog_display_description', '0', '0'
 );
 ");
@@ -381,7 +397,7 @@ unlink($unzip_path.'test');
 $renamed=rename(DIR_SYSTEM . 'helper/tcpdf-6.0.086',DIR_SYSTEM . 'helper/tcpdf');
 if(!$renamed == false)
 {
-copy(DIR_SYSTEM . 'cache/pdf_catalog_default_logo.png', DIR_SYSTEM . 'helper/tcpdf/examples/pdf_catalog_default_logo.png');
+copy(DIR_SYSTEM . 'cache/pdf_catalog_default_logo.png', DIR_SYSTEM . 'helper/tcpdf/examples/images/pdf_catalog_default_logo.png');
 //unlink($cache);
 echo 'Api Installed...';
 echo '<br>';

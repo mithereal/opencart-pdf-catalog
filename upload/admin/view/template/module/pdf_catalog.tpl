@@ -86,20 +86,7 @@
           </table>
           <table id="module" class="form ">
 
-	  <!-- 
-		<tr>
-          <td><?php echo $entry_pdf_catalog_template_type; ?></td>
-          <td><select name="pdf_catalog_template_type">
-              <?php if ($pdf_catalog_template_type == "native") { ?>
-              <option value="html">HTML</option>
-              <option value="native" selected="selected"><?php echo $text_native; ?></option>
-              <?php } else { ?>
-             <option value="html" selected="selected">HTML</option>
-              <option value="native"><?php echo $text_native; ?></option>
-              <?php } ?>
-            </select></td>
-        </tr>
-   -->
+
 	   <?php
 	   if($tcpdf == false){
 		   ?>
@@ -180,6 +167,39 @@
               <?php } ?>
             </select></td>
         </tr>
+        
+		<tr>
+          <td><?php echo $entry_display_manufacturer_logo; ?></td>
+          <td>
+         <select name="pdf_catalog_display_manufacturer_logo">
+              <?php if ($pdf_catalog_display_manufacturer_logo) { ?>
+              <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+              <option value="0"><?php echo $text_no; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_yes; ?></option>
+              <option value="0" selected="selected"><?php echo $text_no; ?></option>
+              <?php } ?>
+            </select>
+         </td>
+          </tr>
+   
+	 
+		<tr>
+          <td><?php echo $entry_display_manufacturer_name; ?></td>
+          <td>
+            <select name="pdf_catalog_display_manufacturer_name">
+              <?php if ($pdf_catalog_display_manufacturer_name) { ?>
+              <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+              <option value="0"><?php echo $text_no; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_yes; ?></option>
+              <option value="0" selected="selected"><?php echo $text_no; ?></option>
+              <?php } ?>
+            </select>
+        </td>
+        </tr>
+         
+         
         <!--
 		<tr>
           <td><?php echo $entry_sort_products; ?></td>
@@ -205,6 +225,20 @@
           <td><?php echo $entry_pdf_max_per_options; ?> </td>
               <td><input type="text" name="pdf_catalog_max_per_options" value="<?php echo $pdf_catalog_max_per_options;?>"/></td>
 	  </tr>
+    <!-- 
+		<tr>
+          <td><?php echo $entry_pdf_catalog_template_type; ?></td>
+          <td><select name="pdf_catalog_template_type">
+              <?php if ($pdf_catalog_template_type == "native") { ?>
+              <option value="html">HTML</option>
+              <option value="native" selected="selected"><?php echo $text_native; ?></option>
+              <?php } else { ?>
+             <option value="html" selected="selected">HTML</option>
+              <option value="native"><?php echo $text_native; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
+   -->
 	      <tr>
           <td><?php echo $entry_pdf_author; ?> </td>
               <td><input type="text" name="pdf_catalog_author" value="<?php echo $pdf_catalog_author;?>"/></td>
@@ -298,7 +332,7 @@ $( '#result' ).html( "Installing Tcpdf Please Wait..." );
 $( '#tcpdf' ).hide();
 $.get( "index.php?route=module/pdf_catalog/fetch_api&token=<?php echo $token; ?>", function( data ) {
 $( '#result' ).html( data );
-$( '#result' ).slideUp(7500);
+
 
 });
 }
