@@ -157,7 +157,7 @@ class ControllerProductPdfcatalog extends Controller {
             
             if($this->config->get('pdf_catalog_text_orientation') == 'rtl')
             {
-            $pdf->setRTL($enable, $resetx = true);	
+            $pdf->setRTL($enable = true, $resetx = true);	
             }
 
             // add a page
