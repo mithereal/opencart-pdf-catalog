@@ -51,6 +51,7 @@ $_['entry_pdf_catalog_text_orientation'] = 'Orientation:';
 $_['entry_entry_manufacturer'] = 'Manufacturer:';
 $_['entry_display_manufacturer_logo'] = 'Display Manufacturer Logo:';
 $_['entry_display_manufacturer_name'] = 'Display Manufacturer Name:';
+$_['entry_remove_empty_tags'] = 'Remove Empty Tags (Slower):';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify module PDF catalog!';
