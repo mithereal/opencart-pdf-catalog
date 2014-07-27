@@ -271,6 +271,11 @@ $this->data['pdf_catalog_display_manufacturer_logo'] = $this->request->post['pdf
 $this->data['pdf_catalog_display_manufacturer_logo'] = $this->config->get('pdf_catalog_display_manufacturer_logo');
 }	
 
+if (isset($this->request->post['pdf_catalog_remove_empty_tags'])) {
+$this->data['pdf_catalog_remove_empty_tags'] = $this->request->post['pdf_catalog_remove_empty_tags'];
+} else {
+$this->data['pdf_catalog_remove_empty_tags'] = $this->config->get('pdf_catalog_remove_empty_tags');
+}
 if (isset($this->request->post['pdf_catalog_text_orientation'])) {
 $this->data['pdf_catalog_text_orientation'] = $this->request->post['pdf_catalog_text_orientation'];
 } else {
@@ -341,6 +346,8 @@ NULL , '0', 'pdf_catalog', 'pdf_catalog_text_orientation', 'ltr', '0'
 NULL , '0', 'pdf_catalog', 'pdf_catalog_display_manufacturer_name', '0', '0'
 ),(
 NULL , '0', 'pdf_catalog', 'pdf_catalog_display_manufacturer_logo', '0', '0'
+),(
+NULL , '0', 'pdf_catalog', 'pdf_catalog_remove_empty_tags', '1, '0'
 ),(
 NULL , '0', 'pdf_catalog', 'pdf_catalog_display_description', '0', '0'
 );
