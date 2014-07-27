@@ -182,7 +182,6 @@
             </select>
          </td>
           </tr>
-   
 	 
 		<tr>
           <td><?php echo $entry_display_manufacturer_name; ?></td>
@@ -214,6 +213,22 @@
             </select></td>
         </tr>
         -->
+        
+       <!--
+	<tr>
+          <td><?php echo $entry_pdf_catalog_remove_empty_tags; ?></td>
+          <td><select name="pdf_catalog_remove_empty_tags">
+              <?php if ($pdf_catalog_remove_empty_tags == '0') { ?>
+              <option value="0" selected="selected"><?php echo $text_yes; ?></option>
+              <option value="1"><?php echo $text_no; ?></option>
+              <?php } else { ?>
+              <option value="0"><?php echo $text_yes; ?></option>
+              <option value="1" selected="selected"><?php echo $text_no; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
+        -->
+        
 	      <tr>
           <td><?php echo $entry_pdf_max_products; ?> </td>
               <td><input type="text" name="pdf_catalog_max_products" value="<?php echo $pdf_catalog_max_products;?>"/></td>
