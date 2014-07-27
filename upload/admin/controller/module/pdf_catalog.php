@@ -63,6 +63,7 @@ $this->data['entry_pdf_catalog_max_per_options'] = $this->language->get('entry_p
 $this->data['entry_pdf_max_options'] = $this->language->get('entry_pdf_max_options');
 $this->data['entry_pdf_max_per_options'] = $this->language->get('entry_pdf_max_per_options');
 $this->data['entry_pdf_catalog_text_orientation'] = $this->language->get('entry_pdf_catalog_text_orientation');
+$this->data['entry_pdf_catalog_remove_empty_tags'] = $this->language->get('entry_pdf_catalog_remove_empty_tags');
 $this->data['text_rtl'] = $this->language->get('text_rtl');
 $this->data['text_ltr'] = $this->language->get('text_ltr');
 
