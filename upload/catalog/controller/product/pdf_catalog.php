@@ -362,7 +362,11 @@ class ControllerProductPdfcatalog extends Controller {
         }
 
         $html .= $pdf_content;
-		$html = $this->remove_empty_tags_recursive($html);
+        
+        if($this->config->get('pdf_catalog_remove_empty_tags') == 1){
+           $html = $this->remove_empty_tags_recursive($html);
+        }
+		
         $pdf->writeHTML($html, true, false, true, false, '');
         return $pdf;
     }
