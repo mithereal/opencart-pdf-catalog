@@ -348,7 +348,7 @@ NULL , '0', 'pdf_catalog', 'pdf_catalog_display_manufacturer_name', '0', '0'
 ),(
 NULL , '0', 'pdf_catalog', 'pdf_catalog_display_manufacturer_logo', '0', '0'
 ),(
-NULL , '0', 'pdf_catalog', 'pdf_catalog_remove_empty_tags', '1, '0'
+NULL , '0', 'pdf_catalog', 'pdf_catalog_remove_empty_tags', '1', '0'
 ),(
 NULL , '0', 'pdf_catalog', 'pdf_catalog_display_description', '0', '0'
 );
